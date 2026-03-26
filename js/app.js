@@ -14,7 +14,7 @@ const repo = "trading";
 const path = "data.txt";
 
 // IMPORTANT: force main branch
-const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=main`;
+const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
 // ===============================
@@ -63,12 +63,15 @@ $(document).ready(function(){
 		let datetime = $("#datetime").val();
 		let type = $("#type").val();
 
+		// ===============================
+		// VALIDATION
+		// ===============================
 		if(!price || !amount || !datetime){
 			$("#dspMsg")
 			  .removeClass("label-success")
 			  .addClass("label-error")
 			  .text("Please fill all fields.")
-			  .fadeIn(200).delay(1600).fadeOut(700);
+			  .stop(true,true).fadeIn(200).delay(1600).fadeOut(700);
 			return;
 		}
 
@@ -82,24 +85,15 @@ $(document).ready(function(){
 		try {
 
 			// ===============================
-			// 🔴 URLS (IMPORTANT)
+			// 1. GET FILE (USE getUrl)
 			// ===============================
-			const getUrl = "https://api.github.com/repos/konkhmertool/trading/contents/data.txt?ref=main";
-			const putUrl = "https://api.github.com/repos/konkhmertool/trading/contents/data.txt";
-
-			// ===============================
-			// 1. GET FILE
-			// ===============================
-			let res = await fetch(getUrl, {
-				headers: {
-					Authorization: `token ${githubToken}`
-				}
-			});
-
+			let res = await githubFetch(getUrl);
 			let fileData = await res.json();
 
+			console.log("GET:", fileData);
+
 			// ===============================
-			// 2. DECODE + PARSE
+			// 2. PARSE DATA
 			// ===============================
 			let json = [];
 
@@ -107,70 +101,77 @@ $(document).ready(function(){
 				try {
 					let content = atob(fileData.content);
 					json = JSON.parse(content);
-				} catch (e) {
+				} catch {
 					json = [];
 				}
 			}
 
 			// ===============================
-			// 3. AUTO ID
+			// 3. GET MAX ID
 			// ===============================
 			let maxId = 0;
-			if (json.length > 0) {
-				maxId = Math.max(...json.map(item => item.ID || 0));
-			}
+			json.forEach(x => {
+				if (x.ID > maxId) maxId = x.ID;
+			});
 
+			// ===============================
+			// 4. CREATE RECORD
+			// ===============================
 			let newRecord = {
 				ID: maxId + 1,
 				TokenName: token.toUpperCase(),
 				Type: type,
-				Price: parseFloat(price),
-				Amount: parseFloat(amount),
-				Total: parseFloat(price) * parseFloat(amount),
+				Price: Number(price),
+				Amount: Number(amount),
+				Total: Number(price) * Number(amount),
 				Date: formatted
 			};
 
 			json.push(newRecord);
 
-			// 4. SAVE TO GITHUB (CHECK RESPONSE)
+			console.log("NEW JSON:", json);
+
 			// ===============================
-			let saveRes = await fetch(putUrl, {
+			// 5. SAVE (USE putUrl)
+			// ===============================
+			let saveRes = await githubFetch(putUrl, {
 				method: "PUT",
-				headers: {
-					Authorization: `token ${githubToken}`,
-					"Content-Type": "application/json"
-				},
 				body: JSON.stringify({
-					message: "Add new record",
+					message: "update data.txt",
 					content: btoa(JSON.stringify(json, null, 2)),
 					sha: fileData.sha,
 					branch: "main"
 				})
 			});
 
-			let saveData = await saveRes.json();
+			let result = await saveRes.json();
+			console.log("SAVE:", result);
 
-			console.log("SAVE RESPONSE:", saveData);
-
-			// CHECK SUCCESS
+			// ===============================
+			// 6. RESULT UI
+			// ===============================
 			if (saveRes.status === 200 || saveRes.status === 201) {
 				$("#dspMsg")
 				  .removeClass("label-error")
 				  .addClass("label-success")
 				  .text("Saved successfully!")
-				  .fadeIn(200).delay(1600).fadeOut(700);
+				  .stop(true,true).fadeIn(200).delay(1600).fadeOut(700);
 			} else {
-				throw new Error(saveData.message || "Save failed");
+				$("#dspMsg")
+				  .removeClass("label-success")
+				  .addClass("label-error")
+				  .text(result.message || "Save failed")
+				  .stop(true,true).fadeIn(200).delay(1600).fadeOut(700);
 			}
 
-		} catch (err) {
-			console.error(err);
+		} catch (e) {
+			console.error(e);
 
 			$("#dspMsg")
 			  .removeClass("label-success")
 			  .addClass("label-error")
-			  .text("Error: " + err.message)
-			  .fadeIn(200).delay(1600).fadeOut(700);
+			  .text("Error occurred")
+			  .stop(true,true).fadeIn(200).delay(1600).fadeOut(700);
 		}
 
 	});
