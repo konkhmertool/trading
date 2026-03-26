@@ -4,12 +4,32 @@
 👉 Select permissions: ✔ repo (FULL access)
 // Result TOKEN ID: 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
 */
-$(document).ready(function(){
 
-	// ===============================
-	// 🔴 PASTE YOUR TOKEN HERE ONLY
-	// ===============================
-	const githubToken = "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";
+// ===============================
+// 🔴 CONFIG (PUT YOUR TOKEN HERE)
+// ===============================
+const githubToken = "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";
+const owner = "konkhmertool";
+const repo = "trading";
+const path = "data.txt";
+
+const baseUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+// ===============================
+// 🔁 HELPER FUNCTION (AUTO TOKEN)
+// ===============================
+function githubFetch(url, options = {}) {
+    return fetch(url, {
+        ...options,
+        headers: {
+            Authorization: `token ${githubToken}`,
+            "Content-Type": "application/json",
+            ...(options.headers || {})
+        }
+    });
+}
+
+$(document).ready(function(){	
 
 	$("#menuToggle").on("click", function () {
     $("#mainMenu").toggleClass("show");
@@ -55,46 +75,30 @@ $(document).ready(function(){
 			return;
 		}
 
+		// ===============================
+		// FORMAT DATE
+		// ===============================
 		let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 		let d = new Date(datetime);
 		let formatted = d.getFullYear() + "-" + months[d.getMonth()] + "-" + d.getDate();
-
-		// ===============================
-		// GITHUB CONFIG
-		// ===============================		
-		const owner = "konkhmertool";
-		const repo = "trading";
-		const path = "data.txt";
-
-		const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
 		try {
 
 			// ===============================
 			// 1. GET FILE FROM GITHUB
 			// ===============================
-			let res = await fetch(url, {
-				headers: {
-					Authorization: `token ${githubToken}`
-				}
-			});
-
-			if(res.status === 401){
-				throw new Error("Unauthorized (check token)");
-			}
-
+			let res = await githubFetch(baseUrl);
 			let data = await res.json();
 
 			// ===============================
-			// 2. DECODE + PARSE JSON
+			// 2. DECODE + PARSE
 			// ===============================
 			let content = atob(data.content);
 
 			let json = [];
 			try {
 				json = JSON.parse(content);
-			} catch (e) {
-				console.warn("File empty or invalid JSON → reset");
+			} catch {
 				json = [];
 			}
 
@@ -105,13 +109,9 @@ $(document).ready(function(){
 			if (json.length > 0) {
 				maxId = Math.max(...json.map(item => item.ID || 0));
 			}
-			let newId = maxId + 1;
 
-			// ===============================
-			// 4. CREATE RECORD
-			// ===============================
 			let newRecord = {
-				ID: newId,
+				ID: maxId + 1,
 				TokenName: token.toUpperCase(),
 				Type: type,
 				Price: parseFloat(price),
@@ -123,14 +123,10 @@ $(document).ready(function(){
 			json.push(newRecord);
 
 			// ===============================
-			// 5. SAVE BACK TO GITHUB
+			// 4. SAVE BACK TO GITHUB
 			// ===============================
-			await fetch(url, {
+			await githubFetch(baseUrl, {
 				method: "PUT",
-				headers: {
-					Authorization: `token ${githubToken}`,
-					"Content-Type": "application/json"
-				},
 				body: JSON.stringify({
 					message: "Add new record",
 					content: btoa(JSON.stringify(json, null, 2)),
@@ -153,6 +149,7 @@ $(document).ready(function(){
 			  .text("Error: " + err.message)
 			  .fadeIn(200).delay(1600).fadeOut(700);
 		}
+
 	}); //end save button
 
 
