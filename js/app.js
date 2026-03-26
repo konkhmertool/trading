@@ -1,4 +1,4 @@
-
+let isSaving = false;
 $(document).ready(function(){	
 	// SET TODAY DATE
     let today = new Date().toISOString().split("T")[0];
@@ -34,41 +34,60 @@ $(document).ready(function(){
     // ===============================
     $("#save").click(async function(){
 
+		// 🚫 BLOCK IF ALREADY SAVING
+		if(isSaving) return;
+
+		isSaving = true;
+
+		let btn = $("#save");
+
+		// 🔄 START LOADING
+		btn.prop("disabled", true);
+		btn.find(".btn-text").text("Saving...");
+		btn.find(".btn-loader").show();
+
 		let token = $("#token").val();
-		let price = $("#price").val();
-		let amount = $("#amount").val();
+		let price = $("#price").val().trim();
+		let amount = $("#amount").val().trim();
+		let total = $("#total").val().trim();
 		let datetime = $("#datetime").val();
 		let type = $("#type").val();
 
+		// VALIDATION
 		if(!price || !amount || !datetime){
+
 			$("#dspMsg")
 			  .removeClass("label-success")
 			  .addClass("label-error")
 			  .text("Please fill all fields.")
 			  .fadeIn(200).delay(1600).fadeOut(700);
+
+			// 🔁 UNLOCK
+			isSaving = false;
+			btn.prop("disabled", false);
+			btn.find(".btn-text").text("SAVE");
+			btn.find(".btn-loader").hide();
+
 			return;
 		}
 
 		try {
 
-			// 🔥 GET ALL DATA
 			let snapshot = await getDocs(collection(db, "trades"));
 
 			let maxId = 0;
-
 			snapshot.forEach(doc => {
 				let data = doc.data();
 				if (data.ID > maxId) maxId = data.ID;
 			});
 
-			// 🔥 SAVE NEW RECORD
 			await addDoc(collection(db, "trades"), {
 				ID: maxId + 1,
 				TokenName: token.toUpperCase(),
 				Type: type,
-				Price: Number(price),
-				Amount: Number(amount),
-				Total: Number(price) * Number(amount),
+				Price: price,
+				Amount: amount,
+				Total: total,
 				Date: datetime
 			});
 
@@ -77,6 +96,19 @@ $(document).ready(function(){
 			  .addClass("label-success")
 			  .text("Saved successfully!")
 			  .fadeIn(200).delay(1600).fadeOut(700);
+
+			// RESET (your style)
+			let selectedToken = $("#token").val();
+			let selectedType = $("#type").val();
+
+			$("#promptForm")[0].reset();
+			$("#token").val(selectedToken);
+			$("#type").val(selectedType);
+
+			let today = new Date().toISOString().split("T")[0];
+			$("#datetime").val(today);
+
+			$("#price").focus();
 
 		} catch (e) {
 			console.error(e);
@@ -88,8 +120,16 @@ $(document).ready(function(){
 			  .fadeIn(200).delay(1600).fadeOut(700);
 		}
 
+		// 🔓 ALWAYS UNLOCK
+		isSaving = false;
+		btn.prop("disabled", false);
+		btn.find(".btn-text").text("SAVE");
+		btn.find(".btn-loader").hide();
+
 	});
 //end save button
-
+$("#promptForm").on("submit", function(e){
+	if(isSaving) e.preventDefault();
+});
 
 });
