@@ -1,59 +1,57 @@
 *{box-sizing:border-box;}
-body {margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f3f3;color:#111;}
-@font-face{font-family:'KhKoulen';src:url('../assets/fonts/kh_koulen_l.ttf') format('truetype');font-weight:normal;font-style:normal;unicode-range:U+1780-17FF;}
-@font-face{font-family:'Khmer OS Siemreap';src:url('../assets/fonts/KhmerOSSiemreap.ttf') format('truetype');font-weight:normal;font-style:normal;unicode-range:U+1780-17FF;}
-@font-face{font-family:'Kanit';src:url('../assets/fonts/Kanit-Regular.ttf') format('truetype');font-weight:400;font-style:normal;}
-/* HEADER */
-.site-header{background:#fff;border-bottom:1px solid #d8d8d8;position:relative;}
+
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#36373c;color:#f6d246;}
+
+@font-face{font-family:'KhKoulen';src:url('../assets/fonts/kh_koulen_l.ttf') format('truetype');unicode-range:U+1780-17FF;}
+@font-face{font-family:'Khmer OS Siemreap';src:url('../assets/fonts/KhmerOSSiemreap.ttf') format('truetype');unicode-range:U+1780-17FF;}
+@font-face{font-family:'Kanit';src:url('../assets/fonts/Kanit-Regular.ttf') format('truetype');}
+
+.site-header{background:#36373c;border-bottom:1px solid #f6d246;position:relative;}
 
 .header-inner{max-width:1100px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;}
 
-.logo{font-family:'KhKoulen',Arial,Helvetica,sans-serif;font-size:22px;font-weight:normal;color:#1565d8;white-space:nowrap;letter-spacing:0.3px;}
+.logo{font-family:'KhKoulen',Arial;font-size:22px;color:#f6d246;white-space:nowrap;letter-spacing:0.3px;}
 .logo span{font-family:Arial,Helvetica,sans-serif;font-weight:700;}
 
-.menu-toggle{display:none;width:38px;height:38px;border:1px solid #cfcfcf;border-radius:6px;background:#fff;color:#222;font-size:20px;font-weight:700;cursor:pointer;align-items:center;justify-content:center;line-height:1;}
+.menu-toggle{display:none;width:38px;height:38px;border:1px solid #f6d246;border-radius:6px;background:#36373c;color:#f6d246;font-size:20px;cursor:pointer;align-items:center;justify-content:center;line-height:1;}
 
 .nav-menu{display:flex;align-items:center;gap:26px;flex-wrap:wrap;justify-content:flex-end;}
-
-.nav-menu a{font-family:Arial,'Khmer OS Siemreap';text-decoration:none;color:#222;font-size:15px;}
-
-/* page-wrap */
+.nav-menu a{font-family:Arial,'Khmer OS Siemreap';text-decoration:none;color:#f6d246 ;font-size:15px;}
 
 .page-wrap{max-width:1100px;margin:0 auto;padding:0 20px 60px;}
 
-.app-card{background:#fff;margin-top:8px;padding:0 42px 50px;min-height:calc(100vh - 100px);}
-/* TABS */
+.app-card{background:#36373c;margin-top:8px;padding:0 42px 50px;min-height:calc(100vh - 100px);}
+
 .tabs{display:flex;gap:22px;padding-top:10px;flex-wrap:wrap;}
 
-.tab-btn{min-width:260px;border:0;cursor:pointer;text-align:left;background:#e5e5e5;color:#000;font-size:15px;font-weight:700;padding:12px 16px;text-decoration:none;display:inline-block;}
-
-.tab-btn.active{background:#f3a300;color:#fff;}
+.tab-btn{min-width:260px;border:1px solid #f6d246;cursor:pointer;background:#36373c;color:#f6d246;font-size:15px;font-weight:700;padding:12px 16px;}
+.tab-btn.active{background:#f6d246;color:#36373c;}
 
 .tab-panel{display:block;padding-top:15px;max-width:760px;}
 
-/* FORM */
 .form-group{margin-bottom:7px;}
+.form-group label{display:block;font-size:14px;font-weight:700;color:#f6d246;}
 
-.form-group label{display:block;margin-bottom:0px;font-size:14px;font-weight:700;color:#111;}
+.form-control{width:100%;border:1px solid #f6d246;border-radius:4px;padding:5px 7px;font-size:16px;background:#36373c;color:#f6d246;outline:none;}
 
-.form-control{width:100%;border:1px solid #adadad;border-radius:4px;padding:5px 7px;font-size:16px;background:#fff;outline:none;}
 .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+
 .copied-label{display:none;font-weight:700;font-size:14px;margin-left:2px;}
+
 .label-success{color:#2ecc71;}
 .label-error{color:#e74c3c;}
 
-.btn{border:0;border-radius:6px;background:#49b64f;color:#fff;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;}
+.btn{border:1px solid #f6d246;border-radius:6px;background:#36373c;color:#f6d246;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;}
+.btn:hover{background:#f6d246;color:#36373c;}
 
-.btn:hover{background:#3fa445;}
-/* MOBILE */
 @media (max-width:768px){
 .page-wrap{padding-left:0;padding-right:0;}
 .header-inner{flex-direction:row;align-items:center;justify-content:space-between;}
 .menu-toggle{display:flex;}
-.nav-menu{display:none;position:absolute;top:80%;right:18px;min-width:220px;background:#fff;border:1px solid #d8d8d8;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:8px 0;z-index:1000;flex-direction:column;align-items:stretch;gap:0;}
+.nav-menu{display:none;position:absolute;top:80%;right:18px;min-width:220px;background:#36373c;border:1px solid #f6d246;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:8px 0;z-index:1000;flex-direction:column;align-items:stretch;gap:0;}
 .nav-menu.show{display:flex;}
-.nav-menu a{display:block;padding:12px 14px;font-size:14px;}
-.nav-menu a:hover{background:#f5f5f5;}
+.nav-menu a{display:block;padding:12px 14px;font-size:14px;color:#f6d246;}
+.nav-menu a:hover{background:#2c2d31;}
 .app-card{padding:0 18px 36px;min-height:auto;}
 .tabs{display:flex;flex-direction:row;flex-wrap:nowrap;gap:10px;}
 .tab-btn{width:auto;min-width:auto;padding:10px 14px;font-size:14px;}
