@@ -14,7 +14,8 @@ const repo = "trading";
 const path = "data.txt";
 
 // IMPORTANT: force main branch
-const baseUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=main`;
+const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=main`;
+const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
 // ===============================
 // 🔁 HELPER FUNCTION (AUTO TOKEN)
@@ -56,104 +57,115 @@ $(document).ready(function(){
     // ===============================
     $("#save").click(async function(){
 
-        let token = $("#token").val();
-        let price = $("#price").val();
-        let amount = $("#amount").val();
-        let datetime = $("#datetime").val();
-        let type = $("#type").val();
+		let token = $("#token").val();
+		let price = $("#price").val();
+		let amount = $("#amount").val();
+		let datetime = $("#datetime").val();
+		let type = $("#type").val();
 
-        if(!price || !amount || !datetime){
-            $("#dspMsg")
-              .removeClass("label-success")
-              .addClass("label-error")
-              .text("Please fill all fields.")
-              .fadeIn(200).delay(1600).fadeOut(700);
-            return;
-        }
+		if(!price || !amount || !datetime){
+			$("#dspMsg")
+			  .removeClass("label-success")
+			  .addClass("label-error")
+			  .text("Please fill all fields.")
+			  .fadeIn(200).delay(1600).fadeOut(700);
+			return;
+		}
 
-        // ===============================
-        // FORMAT DATE
-        // ===============================
-        let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-        let d = new Date(datetime);
-        let formatted = d.getFullYear() + "-" + months[d.getMonth()] + "-" + d.getDate();
+		// ===============================
+		// FORMAT DATE
+		// ===============================
+		let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+		let d = new Date(datetime);
+		let formatted = d.getFullYear() + "-" + months[d.getMonth()] + "-" + d.getDate();
 
-        try {
+		try {
 
-            // ===============================
-            // 1. GET FILE FROM GITHUB
-            // ===============================
-            let res = await githubFetch(baseUrl);
-            let fileData = await res.json();
+			// ===============================
+			// 🔴 URLS (IMPORTANT)
+			// ===============================
+			const getUrl = "https://api.github.com/repos/konkhmertool/trading/contents/data.txt?ref=main";
+			const putUrl = "https://api.github.com/repos/konkhmertool/trading/contents/data.txt";
 
-            // ===============================
-            // 2. DECODE + PARSE
-            // ===============================
-            let json = [];
+			// ===============================
+			// 1. GET FILE
+			// ===============================
+			let res = await fetch(getUrl, {
+				headers: {
+					Authorization: `token ${githubToken}`
+				}
+			});
 
-            if (fileData.content) {
-                try {
-                    let content = atob(fileData.content);
-                    json = JSON.parse(content);
-                } catch (e) {
-                    console.warn("Invalid JSON → reset");
-                    json = [];
-                }
-            } else {
-                console.warn("Empty file → start new");
-                json = [];
-            }
+			let fileData = await res.json();
 
-            // ===============================
-            // 3. AUTO INCREMENT ID
-            // ===============================
-            let maxId = 0;
-            if (json.length > 0) {
-                maxId = Math.max(...json.map(item => item.ID || 0));
-            }
+			// ===============================
+			// 2. DECODE + PARSE
+			// ===============================
+			let json = [];
 
-            let newRecord = {
-                ID: maxId + 1,
-                TokenName: token.toUpperCase(),
-                Type: type,
-                Price: parseFloat(price),
-                Amount: parseFloat(amount),
-                Total: parseFloat(price) * parseFloat(amount),
-                Date: formatted
-            };
+			if (fileData.content) {
+				try {
+					let content = atob(fileData.content);
+					json = JSON.parse(content);
+				} catch (e) {
+					json = [];
+				}
+			}
 
-            json.push(newRecord);
+			// ===============================
+			// 3. AUTO ID
+			// ===============================
+			let maxId = 0;
+			if (json.length > 0) {
+				maxId = Math.max(...json.map(item => item.ID || 0));
+			}
 
-            // ===============================
-            // 4. SAVE BACK TO GITHUB
-            // ===============================
-            await githubFetch(baseUrl, {
-                method: "PUT",
-                body: JSON.stringify({
-                    message: "Add new record",
-                    content: btoa(JSON.stringify(json, null, 2)),
-                    sha: fileData.sha,
-                    branch: "main"
-                })
-            });
+			let newRecord = {
+				ID: maxId + 1,
+				TokenName: token.toUpperCase(),
+				Type: type,
+				Price: parseFloat(price),
+				Amount: parseFloat(amount),
+				Total: parseFloat(price) * parseFloat(amount),
+				Date: formatted
+			};
 
-            $("#dspMsg")
-              .removeClass("label-error")
-              .addClass("label-success")
-              .text("Saved successfully!")
-              .fadeIn(200).delay(1600).fadeOut(700);
+			json.push(newRecord);
 
-        } catch (err) {
-            console.error(err);
+			// ===============================
+			// 4. SAVE TO GITHUB
+			// ===============================
+			await fetch(putUrl, {
+				method: "PUT",
+				headers: {
+					Authorization: `token ${githubToken}`,
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					message: "Add new record",
+					content: btoa(JSON.stringify(json, null, 2)),
+					sha: fileData.sha,
+					branch: "main"
+				})
+			});
 
-            $("#dspMsg")
-              .removeClass("label-success")
-              .addClass("label-error")
-              .text("Error: " + err.message)
-              .fadeIn(200).delay(1600).fadeOut(700);
-        }
+			$("#dspMsg")
+			  .removeClass("label-error")
+			  .addClass("label-success")
+			  .text("Saved successfully!")
+			  .fadeIn(200).delay(1600).fadeOut(700);
 
-    });
+		} catch (err) {
+			console.error(err);
+
+			$("#dspMsg")
+			  .removeClass("label-success")
+			  .addClass("label-error")
+			  .text("Error: " + err.message)
+			  .fadeIn(200).delay(1600).fadeOut(700);
+		}
+
+	});
 //end save button
 
 
