@@ -43,7 +43,7 @@ $(document).ready(function(){
 		new TradingView.widget({
 			container_id: "tradingview_chart",
 			width: "100%",
-			height: 500,
+			height: 450,
 			symbol: "OANDA:" + currentSymbol,
 			interval: "15",
 			timezone: "Asia/Bangkok",
