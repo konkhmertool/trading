@@ -18,6 +18,13 @@ const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?r
 const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
 $(document).ready(function(){	
+// SET TODAY DATE
+    let today = new Date().toISOString().split("T")[0];
+    $("#datetime").val(today);
+	// CLICK ANYWHERE ON INPUT → OPEN DATE PICKER
+$("#datetime").on("focus click", function(){
+    this.showPicker();
+});
 // ===============================
 // 🔁 HELPER FUNCTION (AUTO TOKEN)
 // ===============================
