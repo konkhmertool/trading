@@ -83,5 +83,5 @@ td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 .tab-btn{width:auto;min-width:auto;padding:10px 14px;font-size:14px;}
 .tab-panel{max-width:100%;}
 .title{font-size:20px;}
-input[type="date"].form-control{width:100%!important;max-width:98%;}
+input[type="date"].form-control{width:98%!important;max-width:98%;}
 }
