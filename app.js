@@ -43,6 +43,26 @@ function githubFetch(url, options = {}) {
     $("#mainMenu").toggleClass("show");
   });
 
+/*
+AREA Firebase GOOGLE
+*/
+// FIREBASE INIT
+const firebaseConfig = {
+  apiKey: "AIzaSyDXtKjKkzWFIgid3xgXq4dBl12FFGuAalk",
+  authDomain: "trading-app-215a6.firebaseapp.com",
+  projectId: "trading-app-215a6",
+  storageBucket: "trading-app-215a6.firebasestorage.app",
+  messagingSenderId: "838378906372",
+  appId: "1:838378906372:web:def69c013e774281a4e651"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/*
+AREA Firebase GOOGLE
+*/
+// FIREBASE INIT
   $(document).on("click", function (e) {
     if (!$(e.target).closest("#menuToggle, #mainMenu").length) {
       $("#mainMenu").removeClass("show");
@@ -69,114 +89,42 @@ function githubFetch(url, options = {}) {
 		let datetime = $("#datetime").val();
 		let type = $("#type").val();
 
-		// VALIDATION (KEEP YOUR UI)
 		if(!price || !amount || !datetime){
 			$("#dspMsg")
 			  .removeClass("label-success")
 			  .addClass("label-error")
 			  .text("Please fill all fields.")
-			  .stop(true,true).fadeIn(200).delay(1600).fadeOut(700);
+			  .fadeIn(200).delay(1600).fadeOut(700);
 			return;
 		}
 
-		// FORMAT DATE
-		let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-		let d = new Date(datetime);
-		let formatted = d.getFullYear() + "-" + months[d.getMonth()] + "-" + d.getDate();
-
 		try {
 
-			// ===============================
-			// 1. GET FILE (WITH TOKEN)
-			// ===============================
-			let res = await fetch(getUrl, {
-				headers: {
-					Authorization: "token " + githubToken
-				}
-			});
-
-			let fileData = await res.json();
-
-			console.log("GET STATUS:", res.status);
-			console.log("GET DATA:", fileData);
-
-			// ===============================
-			// 2. PARSE JSON
-			// ===============================
-			let json = [];
-
-			if (fileData.content) {
-				try {
-					let content = atob(fileData.content);
-					json = JSON.parse(content);
-				} catch {
-					json = [];
-				}
-			}
-
-			// ===============================
-			// 3. MAX ID
-			// ===============================
+			// GET MAX ID
+			let snapshot = await db.collection("trades").get();
 			let maxId = 0;
-			json.forEach(x => {
-				if (x.ID > maxId) maxId = x.ID;
+
+			snapshot.forEach(doc => {
+				let data = doc.data();
+				if (data.ID > maxId) maxId = data.ID;
 			});
 
-			// ===============================
-			// 4. CREATE RECORD
-			// ===============================
-			let newRecord = {
+			// SAVE DATA
+			await db.collection("trades").add({
 				ID: maxId + 1,
 				TokenName: token.toUpperCase(),
 				Type: type,
 				Price: Number(price),
 				Amount: Number(amount),
 				Total: Number(price) * Number(amount),
-				Date: formatted
-			};
-
-			json.push(newRecord);
-
-			console.log("NEW JSON:", json);
-console.log("id " + maxId);
-			// ===============================
-			// 5. SAVE FILE (FIXED AUTH)
-			// ===============================
-			let saveRes = await fetch(putUrl, {
-				method: "PUT",
-				headers: {
-					Authorization: "token " + githubToken, // 🔴 THIS IS THE KEY
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					message: "update data.txt",
-					content: btoa(JSON.stringify(json, null, 2)),
-					sha: fileData.sha,
-					branch: "main"
-				})
+				Date: datetime
 			});
 
-			let result = await saveRes.json();
-
-			console.log("SAVE STATUS:", saveRes.status);
-			console.log("SAVE RESULT:", result);
-
-			// ===============================
-			// RESULT UI
-			// ===============================
-			if (saveRes.status === 200 || saveRes.status === 201) {
-				$("#dspMsg")
-				  .removeClass("label-error")
-				  .addClass("label-success")
-				  .text("Saved successfully!")
-				  .stop(true,true).fadeIn(200).delay(1600).fadeOut(700);
-			} else {
-				$("#dspMsg")
-				  .removeClass("label-success")
-				  .addClass("label-error")
-				  .text(result.message || "Save failed")
-				  .stop(true,true).fadeIn(200).delay(1600).fadeOut(700);
-			}
+			$("#dspMsg")
+			  .removeClass("label-error")
+			  .addClass("label-success")
+			  .text("Saved successfully!")
+			  .fadeIn(200).delay(1600).fadeOut(700);
 
 		} catch (e) {
 			console.error(e);
@@ -185,7 +133,7 @@ console.log("id " + maxId);
 			  .removeClass("label-success")
 			  .addClass("label-error")
 			  .text("Error occurred")
-			  .stop(true,true).fadeIn(200).delay(1600).fadeOut(700);
+			  .fadeIn(200).delay(1600).fadeOut(700);
 		}
 
 	});
