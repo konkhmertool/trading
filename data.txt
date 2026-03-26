@@ -1,29 +1,29 @@
 [
-{
-"ID": 101,
-"TokenName" : "PAXG/USDT",
-"Type":"BUY",
-"Price": 43534.345,
-"Acount": 345345,
-"Total": 453453,
-"Date" : "03/Mar/2026"
-}
-{
-"ID": 102,
-"TokenName" : "PAXG/USDT",
-"Type":"BUY",
-"Price": 43534.345,
-"Acount": 345345,
-"Total": 453453,
-"Date" : "03/Mar/2026"
-}
-{
-"ID": 103,
-"TokenName" : "PAXG/USDT",
-"Type":"BUY",
-"Price": 43534.345,
-"Acount": 345345,
-"Total": 453453,
-"Date" : "03/Mar/2026"
-}
+  {
+    "ID": 101,
+    "TokenName": "PAXG/USDT",
+    "Type": "BUY",
+    "Price": 43534.345,
+    "Amount": 345345,
+    "Total": 453453,
+    "Date": "03-Mar-2026"
+  },
+  {
+    "ID": 102,
+    "TokenName": "PAXG/USDT",
+    "Type": "BUY",
+    "Price": 43534.345,
+    "Amount": 345345,
+    "Total": 453453,
+    "Date": "03-Mar-2026"
+  },
+  {
+    "ID": 103,
+    "TokenName": "PAXG/USDT",
+    "Type": "BUY",
+    "Price": 43534.345,
+    "Amount": 345345,
+    "Total": 453453,
+    "Date": "03-Mar-2026"
+  }
 ]
