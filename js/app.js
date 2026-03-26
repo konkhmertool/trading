@@ -1,8 +1,11 @@
-// GITHUB API token
-// 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
-
-
+/* GITHUB API token
+// 👉 https://github.com/settings/tokens 
+✔ Use: “Classic token (Personal access tokens classic)”
+👉 Select permissions: ✔ repo (FULL access)
+// Result TOKEN ID: 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
+*/
 $(document).ready(function(){
+
 	$("#menuToggle").on("click", function () {
     $("#mainMenu").toggleClass("show");
   });
@@ -54,11 +57,11 @@ $(document).ready(function(){
 		// ===============================
 		// GITHUB CONFIG (EDIT THIS)
 		// ===============================
-		const githubToken = "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";
+		const githubToken = "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";
 		const owner = "konkhmertool";
 		const repo = "trading";
 		const path = "data.txt";
-
+		
 		const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
 		try {
@@ -66,9 +69,16 @@ $(document).ready(function(){
 			// 1. GET CURRENT FILE
 			// ===============================
 			let res = await fetch(url, {
+				method: "PUT",
 				headers: {
-					Authorization: `token ${githubToken}`
-				}
+					Authorization: `token ${githubToken}`,
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					message: "Add new record",
+					content: btoa(JSON.stringify(json, null, 2)),
+					sha: data.sha
+				})
 			});
 
 			let data = await res.json();
