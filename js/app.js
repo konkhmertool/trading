@@ -13,7 +13,7 @@ const owner = "konkhmertool";
 const repo = "trading";
 const path = "data.txt";
 
-const baseUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+const baseUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=main`;
 
 // ===============================
 // 🔁 HELPER FUNCTION (AUTO TOKEN)
@@ -136,7 +136,8 @@ $(document).ready(function(){
 				body: JSON.stringify({
 					message: "Add new record",
 					content: btoa(JSON.stringify(json, null, 2)),
-					sha: data.sha
+					sha: fileData.sha,
+					branch: "main"
 				})
 			});
 
