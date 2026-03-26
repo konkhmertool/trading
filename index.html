@@ -19,7 +19,7 @@
 <!-- HEADER -->
 <header class="site-header">
 <div class="header-inner">
-<div class="logo">កូនខ្មែរ<span>TRADING</span></div>
+<div class="logo">ជួញដូរ<span> - TRADING</span></div>
 
 <button type="button" class="menu-toggle" id="menuToggle">☰</button>
 
@@ -39,7 +39,7 @@
     <!-- TABS -->
     <div class="tabs">        
 		<a href="index.html" class="tab-btn active" data-tab="trade">TRADE</a>
-        <a href="#" class="tab-btn" data-tab="history">HISTORY</a>
+        <a href="history.html" class="tab-btn" data-tab="history">HISTORY</a>
     </div>
 
     <!-- TRADE -->
@@ -58,23 +58,26 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label>Current Price</label>
+			<label>Market Price/តម្លៃទីផ្សារ</label>
 			<input type="number" step="any" id="price" class="form-control">
 		</div>
 		<div class="form-group">
-			<label>Amount</label>
+			<label>Amount/ចំនួន</label>
 			<input type="number" step="any" id="amount" class="form-control">
 		</div>
 		<div class="form-group">
-			<label>Total</label>
+			<label>Total/សរុប</label>
 			<input type="number" step="any" id="total" class="form-control">
 		</div>
 		<div class="form-group">
-			<label>Date Time</label>
+			<label>Date Time/ពេលវេលា</label>
 			<input type="date" id="datetime" class="form-control" style="width:100%">
 		</div>
 		<div class="actions" style="margin-top:10px">			
-			<button type="button" class="btn" id="save">SAVE</button>
+			<button type="button" class="btn" id="save">
+				<span class="btn-text">SAVE</span>
+				<span class="btn-loader" style="display:none;"></span>
+			</button>
 			<span id="dspMsg" class="copied-label">Copied.</span>
 		</div>		
 		</form>
@@ -83,30 +86,8 @@
     
 </section>
 </div>
-
-<!-- Firebase (MODULE VERSION) -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDXtKjKkzWFIgid3xgXq4dBl12FFGuAalk",
-  authDomain: "trading-app-215a6.firebaseapp.com",
-  projectId: "trading-app-215a6",
-  storageBucket: "trading-app-215a6.firebasestorage.app",
-  messagingSenderId: "838378906372",
-  appId: "1:838378906372:web:def69c013e774281a4e651"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// MAKE GLOBAL (so app.js can use)
-window.db = db;
-window.collection = collection;
-window.addDoc = addDoc;
-window.getDocs = getDocs;
-</script>
+<!-- FIREBASE (MODULE VERSION) -->
+<script type="module" src="js/firebase.js"></script>
 
 </body>
 </html>
