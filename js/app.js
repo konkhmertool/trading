@@ -133,7 +133,7 @@ function githubFetch(url, options = {}) {
 			// ===============================
 			// 5. SAVE (USE putUrl)
 			// ===============================
-			let saveRes = await fetch(url, {
+			let saveRes = await fetch(putUrl, {
 				method: "PUT",
 				headers: {
 					Authorization: "token " + githubToken,
