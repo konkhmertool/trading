@@ -1,4 +1,4 @@
-$(document).ready(async function(){
+$(document).ready(async function () {
 
 	let allData = [];
 	let sortState = { field: null, asc: true };
@@ -28,7 +28,7 @@ $(document).ready(async function(){
 	// =====================
 	// RENDER TABLE
 	// =====================
-	function renderTable(data){
+	function renderTable(data) {
 
 		let buyAmount = 0, sellAmount = 0;
 		let buyTotal = 0, sellTotal = 0;
@@ -41,24 +41,32 @@ $(document).ready(async function(){
 			let amount = parseFloat(d.Amount) || 0;
 			let total = parseFloat(d.Total) || 0;
 
-			if(d.Type.toUpperCase() === "BUY"){
+			if (d.Type.toUpperCase() === "BUY") {
 				buyAmount += amount;
 				buyTotal += total;
-			}else{
+			} else {
 				sellAmount += amount;
 				sellTotal += total;
 			}
 
 			html += `
-			<tr>
-				<td>${d.TokenName}</td>
-				<td>${d.Date}</td>
-				<td>${d.Price}</td>
-				<td>${d.Amount}</td>
-				<td>${d.Total}</td>
-				<td><span class="delete-btn" data-id="${d._id}">🗑</span></td>
-			</tr>`;
+<tr>
+	<td>
+		<div>${d.TokenName}</div>		
+		<div class="token-date">${formatDate(d.Date)}</div>
+	</td>
+	<td>${d.Price}</td>
+	<td>${d.Amount}</td>
+	<td>${d.Total}</td>
+	<td><span class="delete-btn" data-id="${d._id}">×</span></td>
+</tr>`;
 		});
+
+		// 🔥 ADD LINE AS LAST ROW
+html += `
+<tr>
+	<td colspan="5" style="height:1px;background:#f6d246;padding:0;"></td>
+</tr>`;
 
 		$("#historyTable").html(html);
 
@@ -74,13 +82,13 @@ $(document).ready(async function(){
 	// =====================
 	// SORT
 	// =====================
-	$("th[data-sort]").click(function(){
+	$("th[data-sort]").click(function () {
 
 		let field = $(this).data("sort");
 
-		if(sortState.field === field){
+		if (sortState.field === field) {
 			sortState.asc = !sortState.asc;
-		}else{
+		} else {
 			sortState.field = field;
 			sortState.asc = true;
 		}
@@ -91,20 +99,20 @@ $(document).ready(async function(){
 		let icon = sortState.asc ? "▲" : "▼";
 		$(this).find(".sort-icon").text(icon);
 
-		let sorted = [...allData].sort((a,b)=>{
+		let sorted = [...allData].sort((a, b) => {
 
 			let valA, valB;
 
-			if(field === "token"){
+			if (field === "token") {
 				valA = a.TokenName;
 				valB = b.TokenName;
-			}else if(field === "date"){
+			} else if (field === "date") {
 				valA = a.Date;
 				valB = b.Date;
 			}
 
-			if(valA < valB) return sortState.asc ? -1 : 1;
-			if(valA > valB) return sortState.asc ? 1 : -1;
+			if (valA < valB) return sortState.asc ? -1 : 1;
+			if (valA > valB) return sortState.asc ? 1 : -1;
 			return 0;
 		});
 
@@ -114,13 +122,13 @@ $(document).ready(async function(){
 	// =====================
 	// DELETE
 	// =====================
-	$(document).on("click", ".delete-btn", async function(){
+	$(document).on("click", ".delete-btn", async function () {
 
 		let id = $(this).data("id");
 
-		if(!confirm("Delete this record?")) return;
+		if (!confirm("Delete this record?")) return;
 
-		try{
+		try {
 
 			// 🔥 DELETE FROM FIREBASE
 			await deleteDoc(doc(db, "trades", id));
@@ -134,11 +142,25 @@ $(document).ready(async function(){
 			// 🔥 RECALCULATE BALANCE + TOTAL
 			renderTable(allData);
 
-		}catch(e){
+		} catch (e) {
 			console.error(e);
 			alert("Delete failed");
 		}
 
 	});
+
+	function formatDate(dateStr){
+
+		let d = new Date(dateStr);
+
+		let day = d.getDate().toString().padStart(2,'0');
+
+		let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+		let month = months[d.getMonth()];
+
+		let year = d.getFullYear();
+
+		return `${day}/${month}/${year}`;
+	}
 
 });
