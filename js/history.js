@@ -2,6 +2,7 @@ $(document).ready(async function () {
 
 	let allData = [];	
 	let sortState = { asc: true };	
+	window.lastGoldPrice = null;
 
 	// MENU
 	$("#menuToggle").on("click", function () {
@@ -26,6 +27,8 @@ $(document).ready(async function () {
 	allData.sort((a,b)=> new Date(a.Date) - new Date(b.Date));
 
 	renderTable(allData);
+	// 🔥 CALL ONLY ONCE HERE
+	loadGoldPrice();
 	// 🔥 SHOW TOKEN ARROW DEFAULT
 	$('th[data-sort="token"]').find(".sort-icon").text("▲");
 
@@ -82,11 +85,20 @@ html += `
 		// BALANCE
 		let balance = buyAmount - sellAmount;
 		$("#balance").text(balance.toFixed(6));
+		
+		updateBalanceApprox();
 
 		// TOTAL
 		let totalFinal = buyTotal - sellTotal;				
 		$("#totalValue").text("$" + totalFinal.toFixed(6));
 
+		window.currentBalance = balance;
+		window.currentTotal = totalFinal;
+
+		// 🔥 UPDATE PROFIT WITHOUT API CALL		
+		if(window.lastGoldPrice){
+			calculateProfit(window.lastGoldPrice);
+		}
 
 	}
 
@@ -163,4 +175,50 @@ html += `
 		return `${day}/${month}/${year}`;
 	}
 
+	async function loadGoldPrice(){
+		try{
+			let res = await fetch("https://api.gold-api.com/price/XAU");
+			let data = await res.json();
+
+			let goldPrice = data.price;
+
+			// 🔥 SAVE PRICE
+			window.lastGoldPrice = goldPrice;
+			calculateProfit(goldPrice);
+			// 🔥 SHOW PRICE
+			$("#goldPrice").text(goldPrice.toFixed(2));
+
+			// 🔥 UPDATE APPROX AFTER PRICE READY
+			updateBalanceApprox();
+
+		}catch(e){
+			console.error("Gold price error", e);
+			$("#goldPrice").text("Error");
+		}
+	}
+	function calculateProfit(goldPrice){
+
+		let balance = window.currentBalance || 0;
+		let total = window.currentTotal || 0;
+
+		console.log("balance:", balance);
+		console.log("total:", total);
+		console.log("gold:", goldPrice);
+
+		let profit = (goldPrice * balance) - total;		
+		$("#profitValue").text("$" + profit.toFixed(2));
+	}
+	function updateBalanceApprox(){
+
+		let balance = parseFloat($("#balance").text());
+
+		if(!balance || !window.lastGoldPrice){
+			$("#balanceApprox").text("");
+			return;
+		}
+
+		let approx = balance * window.lastGoldPrice;
+
+		$("#balanceApprox").text("≈ ($" + approx.toFixed(2) + ")");
+	}
 });
