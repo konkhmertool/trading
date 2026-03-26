@@ -21,6 +21,7 @@ const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 // 🔁 HELPER FUNCTION (AUTO TOKEN)
 // ===============================
 function githubFetch(url, options = {}) {
+	console.log("TOKEN USED:", githubToken);
     return fetch(url, {
         ...options,
         headers: {
