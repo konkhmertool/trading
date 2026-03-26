@@ -15,38 +15,19 @@ $(document).ready(function(){
 		}
 	});
 
-	// =========================
-	// LOAD PRICE FROM API
-	// =========================
-	async function loadPrice(){
-
-        try{
-            let res = await fetch("https://api.metals.live/v1/spot");
-            let data = await res.json();
-
-            let gold = data.find(x => x.gold)?.gold || 0;
-            let silver = data.find(x => x.silver)?.silver || 0;
-
-            currentPrice = currentSymbol === "XAUUSD" ? gold : silver;
-
-            updatePriceDisplay();
-
-        }catch(e){
-            console.error("Price API error", e);
-        }
-    }
 
 	// =========================
 	// UPDATE DISPLAY
 	// =========================
 	function updatePriceDisplay(){
 
-        if(!currentPrice) return; // 🛑 prevent wrong calc
+        if(!currentPrice) return;
 
         let price = currentPrice;
 
+        // 🔥 ONLY CONVERT HERE
         if(currentUnit === "KG"){
-            price = price * 32.1507;
+            price = currentPrice * 32.1507;
         }
 
         $("#priceValue").text(price.toFixed(2));
@@ -62,7 +43,7 @@ $(document).ready(function(){
 		new TradingView.widget({
 			container_id: "tradingview_chart",
 			width: "100%",
-			height: 400,
+			height: 500,
 			symbol: "OANDA:" + currentSymbol,
 			interval: "15",
 			timezone: "Asia/Bangkok",
@@ -77,34 +58,60 @@ $(document).ready(function(){
 	// =========================
 
 	$("#btnGold").click(function(){
-		currentSymbol = "XAUUSD";
-		$(".btn").removeClass("active");
-		$(this).addClass("active");
 
-		loadPrice();
-		loadChart();
-	});
+        currentSymbol = "XAUUSD";
+
+        $(".btn").removeClass("active");
+        $(this).addClass("active");
+
+        loadPrice();
+        loadChart();
+    });
 
 	$("#btnSilver").click(function(){
-		currentSymbol = "XAGUSD";
-		$(".btn").removeClass("active");
-		$(this).addClass("active");
 
-		loadPrice();
-		loadChart();
-	});
+        currentSymbol = "XAGUSD";
+
+        $(".btn").removeClass("active");
+        $(this).addClass("active");
+
+        loadPrice();   // 🔥 ADD THIS
+        loadChart();
+    });
 
 	$("#unit").change(function(){
         currentUnit = $(this).val();
 
-        // 🔥 FORCE RECALCULATE
+        // 🔥 DO NOT FETCH AGAIN
         updatePriceDisplay();
     });
 
+    // 🔥 LOAD REAL GOLD / SILVER PRICE
+    async function loadPrice(){
+
+        let url = currentSymbol === "XAUUSD"
+            ? "https://api.gold-api.com/price/XAU"
+            : "https://api.gold-api.com/price/XAG";
+
+        try{
+            let res = await fetch(url);
+            let data = await res.json();
+
+            // 🔥 STORE ORIGINAL OZ PRICE
+            currentPrice = data.price;
+
+            updatePriceDisplay();
+
+        }catch(e){
+            console.error("Price error:", e);
+            $("#priceValue").text("Error");
+        }
+    }
+
 	// =========================
 	// INIT
-	// =========================
-	loadPrice();
+	// =========================	
+    loadPrice();
 	loadChart();
 
 });
