@@ -51,6 +51,7 @@ input[type=number]{-moz-appearance:textfield;}
 input[type="date"].form-control{width:100%;min-width:0;}
 /* HISTORY HTML */
 table{table-layout:fixed;width:100%;}
+thead{font-family:'Khmer OS Siemreap',Arial;}
 tbody td{border-right:1px solid #f6d246;padding:6px;}
 tbody td:last-child{border-right:none;width:30px;text-align:center;}
 .delete-btn{cursor:pointer;color:#f67b46;font-weight:bold;font-size:16px;display:inline-block;width:16px;}
