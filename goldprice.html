@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Gold Price</title>
+
+<link rel="icon" href="images/favi.ico">
+<link rel="stylesheet" href="style/style.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/goldprice.js"></script>
+</head>
+
+<body>
+
+<!-- HEADER (SAME) -->
+<header class="site-header">
+<div class="header-inner">
+<div class="logo">កូនខ្មែរ<span>TRADING</span></div>
+
+<button type="button" class="menu-toggle" id="menuToggle">☰</button>
+
+<nav class="nav-menu" id="mainMenu">
+<a href="index.html">ទំព័រដើម</a>
+<a href="history.html">History</a>
+<a href="goldprice.html">Gold Price</a>
+</nav>
+</div>
+</header>
+
+<!-- PAGE -->
+<div class="page-wrap">
+<section class="app-card">
+
+	<!-- TABS -->
+	<div class="tabs">        
+		<a href="index.html" class="tab-btn">TRADE</a>
+		<a href="history.html" class="tab-btn">HISTORY</a>
+		<a href="goldprice.html" class="tab-btn active">GOLD</a>
+	</div>
+
+	<!-- CONTROLS -->
+	<div style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+
+		<button id="btnGold" class="btn active">GOLD</button>
+		<button id="btnSilver" class="btn">SILVER</button>
+
+		<select id="unit" class="form-control" style="width:auto;">
+			<option value="OZ">OZ</option>
+			<option value="KG">KG</option>
+		</select>
+
+	</div>
+
+	<!-- PRICE DISPLAY -->
+	<div style="margin-top:15px;font-size:22px;font-weight:bold;">
+		<span id="priceValue">0</span>
+	</div>
+
+	<!-- CHART -->
+	<div id="tradingview_chart" style="margin-top:15px;"></div>
+
+	<!-- CHART -->
+	<div style="margin-top:15px;">
+		<div id="tradingview_chart"></div>
+	</div>
+
+</section>
+</div>
+
+<!-- TRADINGVIEW -->
+<script src="https://s3.tradingview.com/tv.js"></script>
+
+</body>
+</html>

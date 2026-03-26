@@ -38,14 +38,15 @@
 <section class="app-card">
     <!-- TABS -->
     <div class="tabs">        
-		<a href="index.html" class="tab-btn active" data-tab="trade">TRADE</a>
-        <a href="history.html" class="tab-btn" data-tab="history">HISTORY</a>
-    </div>
+		<a href="index.html" class="tab-btn active">TRADE</a>
+		<a href="history.html" class="tab-btn">HISTORY</a>
+		<a href="goldprice.html" class="tab-btn">GOLD</a>
+	</div>
 
     <!-- TRADE -->
     <div id="trade" class="tab-content active">
         <h3>Add more record below</h3>
-		<form id="promptForm">
+		<form id="promptForm" style="overflow:hidden;">
 		<div class="form-group">
 			<label>Token Name​ / ឈ្មោះ</label>
 			<select id="token" class="form-control"></select>

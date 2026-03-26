@@ -132,33 +132,5 @@ $("#promptForm").on("submit", function(e){
 	if(isSaving) e.preventDefault();
 });
 
-// 🔥 MATCH DATE WIDTH TO TOTAL INPUT TEXT
-function adjustDateWidth(){
-
-	let totalVal = $("#total").val() || "000000.000000";
-
-	// create temp span to measure text width
-	let temp = $("<span>").text(totalVal).css({
-		visibility:"hidden",
-		position:"absolute",
-		"font-size":$("#total").css("font-size"),
-		"font-family":$("#total").css("font-family")
-	}).appendTo("body");
-
-	let width = temp.width() + 20; // add padding
-
-	temp.remove();
-
-	$("#datetime").css("width", width + "px");
-}
-
-// run on load
-adjustDateWidth();
-// run when total changes
-$("#total").on("input", adjustDateWidth);
-// 🔄 UPDATE ON WINDOW RESIZE / ROTATE
-$(window).on("resize", function(){
-	adjustDateWidth();
-});
 
 });
