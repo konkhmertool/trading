@@ -55,39 +55,47 @@ $(document).ready(function(){
 		let formatted = d.getFullYear() + "-" + months[d.getMonth()] + "-" + d.getDate();
 
 		// ===============================
-		// GITHUB CONFIG (EDIT THIS)
+		// GITHUB CONFIG
 		// ===============================
-		const githubToken = "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";
+		const githubToken = "ghp_xxxxxxxxxxxxx"; // 🔴 PUT YOUR TOKEN
 		const owner = "konkhmertool";
 		const repo = "trading";
 		const path = "data.txt";
-		
+
 		const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
 		try {
+
 			// ===============================
-			// 1. GET CURRENT FILE
+			// 1. GET FILE FROM GITHUB
 			// ===============================
 			let res = await fetch(url, {
-				method: "PUT",
 				headers: {
-					Authorization: `token ${githubToken}`,
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					message: "Add new record",
-					content: btoa(JSON.stringify(json, null, 2)),
-					sha: data.sha
-				})
+					Authorization: `token ${githubToken}`
+				}
 			});
+
+			if(res.status === 401){
+				throw new Error("Unauthorized (check token)");
+			}
 
 			let data = await res.json();
 
+			// ===============================
+			// 2. DECODE + PARSE JSON
+			// ===============================
 			let content = atob(data.content);
-			let json = JSON.parse(content);
+
+			let json = [];
+			try {
+				json = JSON.parse(content);
+			} catch (e) {
+				console.warn("File empty or invalid JSON → reset");
+				json = [];
+			}
 
 			// ===============================
-			// 2. GET MAX ID
+			// 3. AUTO INCREMENT ID
 			// ===============================
 			let maxId = 0;
 			if (json.length > 0) {
@@ -96,7 +104,7 @@ $(document).ready(function(){
 			let newId = maxId + 1;
 
 			// ===============================
-			// 3. CREATE NEW RECORD
+			// 4. CREATE RECORD
 			// ===============================
 			let newRecord = {
 				ID: newId,
@@ -111,7 +119,7 @@ $(document).ready(function(){
 			json.push(newRecord);
 
 			// ===============================
-			// 4. SAVE BACK TO GITHUB
+			// 5. SAVE BACK TO GITHUB
 			// ===============================
 			await fetch(url, {
 				method: "PUT",
@@ -129,18 +137,19 @@ $(document).ready(function(){
 			$("#dspMsg")
 			  .removeClass("label-error")
 			  .addClass("label-success")
-			  .text("Saved to GitHub!")
+			  .text("Saved successfully!")
 			  .fadeIn(200).delay(1600).fadeOut(700);
 
 		} catch (err) {
 			console.error(err);
+
 			$("#dspMsg")
 			  .removeClass("label-success")
 			  .addClass("label-error")
-			  .text("Error saving!")
+			  .text("Error: " + err.message)
 			  .fadeIn(200).delay(1600).fadeOut(700);
 		}
-	});
+	}); //end save button
 
 
 });
