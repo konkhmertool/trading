@@ -17,6 +17,7 @@ const path = "data.txt";
 const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=main`;
 const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
+$(document).ready(function(){	
 // ===============================
 // 🔁 HELPER FUNCTION (AUTO TOKEN)
 // ===============================
@@ -31,8 +32,6 @@ function githubFetch(url, options = {}) {
         }
     });
 }
-
-$(document).ready(function(){	
 
 	$("#menuToggle").on("click", function () {
     $("#mainMenu").toggleClass("show");
