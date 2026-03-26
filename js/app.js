@@ -21,8 +21,7 @@ $(document).ready(function(){
 // ===============================
 // 🔁 HELPER FUNCTION (AUTO TOKEN)
 // ===============================
-function githubFetch(url, options = {}) {
-	console.log("TOKEN USED:", githubToken);
+function githubFetch(url, options = {}) {	
     return fetch(url, {
         ...options,
         headers: {
@@ -134,13 +133,16 @@ function githubFetch(url, options = {}) {
 			// ===============================
 			// 5. SAVE (USE putUrl)
 			// ===============================
-			let saveRes = await githubFetch(putUrl, {
+			let saveRes = await fetch(url, {
 				method: "PUT",
+				headers: {
+					Authorization: "token " + githubToken,
+					"Content-Type": "application/json"
+				},
 				body: JSON.stringify({
-					message: "update data.txt",
+					message: "update",
 					content: btoa(JSON.stringify(json, null, 2)),
-					sha: fileData.sha,
-					branch: "main"
+					sha: fileData.sha
 				})
 			});
 
