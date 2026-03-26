@@ -132,10 +132,9 @@ $(document).ready(function(){
 
 			json.push(newRecord);
 
+			// 4. SAVE TO GITHUB (CHECK RESPONSE)
 			// ===============================
-			// 4. SAVE TO GITHUB
-			// ===============================
-			await fetch(putUrl, {
+			let saveRes = await fetch(putUrl, {
 				method: "PUT",
 				headers: {
 					Authorization: `token ${githubToken}`,
@@ -149,11 +148,20 @@ $(document).ready(function(){
 				})
 			});
 
-			$("#dspMsg")
-			  .removeClass("label-error")
-			  .addClass("label-success")
-			  .text("Saved successfully!")
-			  .fadeIn(200).delay(1600).fadeOut(700);
+			let saveData = await saveRes.json();
+
+			console.log("SAVE RESPONSE:", saveData);
+
+			// CHECK SUCCESS
+			if (saveRes.status === 200 || saveRes.status === 201) {
+				$("#dspMsg")
+				  .removeClass("label-error")
+				  .addClass("label-success")
+				  .text("Saved successfully!")
+				  .fadeIn(200).delay(1600).fadeOut(700);
+			} else {
+				throw new Error(saveData.message || "Save failed");
+			}
 
 		} catch (err) {
 			console.error(err);
