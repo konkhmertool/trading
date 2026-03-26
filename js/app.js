@@ -2,13 +2,13 @@
 // 👉 https://github.com/settings/tokens 
 ✔ Use: “Classic token (Personal access tokens classic)”
 👉 Select permissions: ✔ repo (FULL access)
-// Result TOKEN ID: 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
+// Result TOKEN ID: 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
 */
 
 // ===============================
 // 🔴 CONFIG (PUT YOUR TOKEN HERE)
 // ===============================
-const githubToken = "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";
+const githubToken = "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";
 const owner = "konkhmertool";
 const repo = "trading";
 const path = "data.txt";
@@ -93,12 +93,18 @@ $(document).ready(function(){
 			// ===============================
 			// 2. DECODE + PARSE
 			// ===============================
-			let content = atob(data.content);
-
 			let json = [];
-			try {
-				json = JSON.parse(content);
-			} catch {
+
+			if (data.content) {
+				try {
+					let content = atob(data.content);
+					json = JSON.parse(content);
+				} catch (e) {
+					console.warn("Invalid JSON → reset");
+					json = [];
+				}
+			} else {
+				console.warn("Empty file → start new");
 				json = [];
 			}
 
