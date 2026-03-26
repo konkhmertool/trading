@@ -56,7 +56,12 @@ $(document).ready(async function () {
 		<div class="token-date">${formatDate(d.Date)}</div>
 	</td>
 	<td>${d.Price}</td>
-	<td>${d.Amount}</td>
+	<td>
+		<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
+			(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
+		</span>
+		${d.Amount}
+	</td>
 	<td>${d.Total}</td>
 	<td><span class="delete-btn" data-id="${d._id}">×</span></td>
 </tr>`;
@@ -75,8 +80,10 @@ html += `
 		$("#balance").text(balance.toFixed(6));
 
 		// TOTAL
-		let totalFinal = buyTotal - sellTotal;
-		$("#totalValue").text(totalFinal.toFixed(6));
+		let totalFinal = buyTotal - sellTotal;				
+		$("#totalValue").text("$" + totalFinal.toFixed(6));
+
+
 	}
 
 	// =====================

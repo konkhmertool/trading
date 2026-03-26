@@ -51,13 +51,16 @@ input[type=number]{-moz-appearance:textfield;}
 input[type="date"].form-control{width:100%;min-width:0;}
 /* HISTORY HTML */
 table{table-layout:fixed;width:100%;}
-tbody td{border-right:1px solid #f6d246;padding:6px;} 
-tbody td:last-child{border-right:none;text-align:center;} 
-.delete-btn{cursor:pointer;color:#f67b46;font-weight:bold;font-size:18px;}
-.token-date{font-size:11px;opacity:.7;}
+tbody td{border-right:1px solid #f6d246;padding:6px;}
+tbody td:last-child{border-right:none;width:30px;text-align:center;}
+.delete-btn{cursor:pointer;color:#f67b46;font-weight:bold;font-size:16px;display:inline-block;width:16px;}
+.buy-text{color:#22c122;margin-right:4px;font-size:12px;font-family:'Khmer OS Siemreap',Arial}
+.sell-text{color:#ff3030;margin-right:4px;font-size:12px;font-family:'Khmer OS Siemreap',Arial}
+.token-date{font-size:12px;opacity:.7;}
 tbody tr:last-child td{padding:0;}
 td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 .sort-icon{margin-left:4px;font-size:12px;} .delete-btn{cursor:pointer;color:#f67b46;font-weight:bold;}
+
 @keyframes spin{
 	from{transform:rotate(0deg);}
 	to{transform:rotate(360deg);}
