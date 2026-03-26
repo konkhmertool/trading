@@ -6,6 +6,11 @@
 */
 $(document).ready(function(){
 
+	// ===============================
+	// 🔴 PASTE YOUR TOKEN HERE ONLY
+	// ===============================
+	const githubToken = "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";
+
 	$("#menuToggle").on("click", function () {
     $("#mainMenu").toggleClass("show");
   });
@@ -56,8 +61,7 @@ $(document).ready(function(){
 
 		// ===============================
 		// GITHUB CONFIG
-		// ===============================
-		const githubToken = "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"; // 🔴 PUT YOUR TOKEN
+		// ===============================		
 		const owner = "konkhmertool";
 		const repo = "trading";
 		const path = "data.txt";
