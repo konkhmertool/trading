@@ -2,13 +2,13 @@
 // 👉 https://github.com/settings/tokens 
 ✔ Use: “Classic token (Personal access tokens classic)”
 👉 Select permissions: ✔ repo (FULL access)
-// Result TOKEN ID: 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
+// Result TOKEN ID: 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
 */
 
 // ===============================
 // 🔴 CONFIG (PUT YOUR TOKEN HERE)
 // ===============================
-const githubToken = "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"; // your token
+const githubToken = "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"; // your token
 const owner = "konkhmertool";
 const repo = "trading";
 const path = "data.txt";
