@@ -131,7 +131,7 @@ function githubFetch(url, options = {}) {
 			json.push(newRecord);
 
 			console.log("NEW JSON:", json);
-
+console.log("id " + maxId);
 			// ===============================
 			// 5. SAVE FILE (FIXED AUTH)
 			// ===============================
