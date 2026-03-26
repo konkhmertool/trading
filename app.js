@@ -17,8 +17,6 @@ const path = "data.txt";
 const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=main`;
 const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
-console.log("TOKEN IN APP:", githubToken);
-
 $(document).ready(function(){	
 // ===============================
 // 🔁 HELPER FUNCTION (AUTO TOKEN)
