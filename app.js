@@ -62,9 +62,7 @@ function githubFetch(url, options = {}) {
 		let datetime = $("#datetime").val();
 		let type = $("#type").val();
 
-		// ===============================
-		// VALIDATION
-		// ===============================
+		// VALIDATION (KEEP YOUR UI)
 		if(!price || !amount || !datetime){
 			$("#dspMsg")
 			  .removeClass("label-success")
@@ -74,9 +72,7 @@ function githubFetch(url, options = {}) {
 			return;
 		}
 
-		// ===============================
 		// FORMAT DATE
-		// ===============================
 		let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 		let d = new Date(datetime);
 		let formatted = d.getFullYear() + "-" + months[d.getMonth()] + "-" + d.getDate();
@@ -84,15 +80,21 @@ function githubFetch(url, options = {}) {
 		try {
 
 			// ===============================
-			// 1. GET FILE (USE getUrl)
+			// 1. GET FILE (WITH TOKEN)
 			// ===============================
-			let res = await githubFetch(getUrl);
+			let res = await fetch(getUrl, {
+				headers: {
+					Authorization: "token " + githubToken
+				}
+			});
+
 			let fileData = await res.json();
 
-			console.log("GET:", fileData);
+			console.log("GET STATUS:", res.status);
+			console.log("GET DATA:", fileData);
 
 			// ===============================
-			// 2. PARSE DATA
+			// 2. PARSE JSON
 			// ===============================
 			let json = [];
 
@@ -106,7 +108,7 @@ function githubFetch(url, options = {}) {
 			}
 
 			// ===============================
-			// 3. GET MAX ID
+			// 3. MAX ID
 			// ===============================
 			let maxId = 0;
 			json.forEach(x => {
@@ -131,26 +133,29 @@ function githubFetch(url, options = {}) {
 			console.log("NEW JSON:", json);
 
 			// ===============================
-			// 5. SAVE (USE putUrl)
+			// 5. SAVE FILE (FIXED AUTH)
 			// ===============================
 			let saveRes = await fetch(putUrl, {
 				method: "PUT",
 				headers: {
-					Authorization: "token " + githubToken,
+					Authorization: "token " + githubToken, // 🔴 THIS IS THE KEY
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
-					message: "update",
+					message: "update data.txt",
 					content: btoa(JSON.stringify(json, null, 2)),
-					sha: fileData.sha
+					sha: fileData.sha,
+					branch: "main"
 				})
 			});
 
 			let result = await saveRes.json();
-			console.log("SAVE:", result);
+
+			console.log("SAVE STATUS:", saveRes.status);
+			console.log("SAVE RESULT:", result);
 
 			// ===============================
-			// 6. RESULT UI
+			// RESULT UI
 			// ===============================
 			if (saveRes.status === 200 || saveRes.status === 201) {
 				$("#dspMsg")
