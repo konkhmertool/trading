@@ -43,26 +43,7 @@ function githubFetch(url, options = {}) {
     $("#mainMenu").toggleClass("show");
   });
 
-/*
-AREA Firebase GOOGLE
-*/
-// FIREBASE INIT
-const firebaseConfig = {
-  apiKey: "AIzaSyDXtKjKkzWFIgid3xgXq4dBl12FFGuAalk",
-  authDomain: "trading-app-215a6.firebaseapp.com",
-  projectId: "trading-app-215a6",
-  storageBucket: "trading-app-215a6.firebasestorage.app",
-  messagingSenderId: "838378906372",
-  appId: "1:838378906372:web:def69c013e774281a4e651"
-};
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-/*
-AREA Firebase GOOGLE
-*/
-// FIREBASE INIT
   $(document).on("click", function (e) {
     if (!$(e.target).closest("#menuToggle, #mainMenu").length) {
       $("#mainMenu").removeClass("show");
@@ -100,8 +81,9 @@ AREA Firebase GOOGLE
 
 		try {
 
-			// GET MAX ID
-			let snapshot = await db.collection("trades").get();
+			// 🔥 GET ALL DATA
+			let snapshot = await getDocs(collection(db, "trades"));
+
 			let maxId = 0;
 
 			snapshot.forEach(doc => {
@@ -109,8 +91,8 @@ AREA Firebase GOOGLE
 				if (data.ID > maxId) maxId = data.ID;
 			});
 
-			// SAVE DATA
-			await db.collection("trades").add({
+			// 🔥 SAVE NEW RECORD
+			await addDoc(collection(db, "trades"), {
 				ID: maxId + 1,
 				TokenName: token.toUpperCase(),
 				Type: type,
