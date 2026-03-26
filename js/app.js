@@ -51,18 +51,8 @@ $(document).ready(function(){
 		let d = new Date(datetime);
 		let formatted = d.getFullYear() + "-" + months[d.getMonth()] + "-" + d.getDate();
 
-		let newRecord = {
-			ID: Date.now(),
-			TokenName: token.toUpperCase(),
-			Type: type,
-			Price: parseFloat(price),
-			Amount: parseFloat(amount),
-			Total: parseFloat(price) * parseFloat(amount),
-			Date: formatted
-		};
-
 		// ===============================
-		// GITHUB CONFIG
+		// GITHUB CONFIG (EDIT THIS)
 		// ===============================
 		const githubToken = "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";
 		const owner = "konkhmertool";
@@ -72,7 +62,9 @@ $(document).ready(function(){
 		const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
 		try {
+			// ===============================
 			// 1. GET CURRENT FILE
+			// ===============================
 			let res = await fetch(url, {
 				headers: {
 					Authorization: `token ${githubToken}`
@@ -84,10 +76,33 @@ $(document).ready(function(){
 			let content = atob(data.content);
 			let json = JSON.parse(content);
 
-			// 2. ADD NEW RECORD
+			// ===============================
+			// 2. GET MAX ID
+			// ===============================
+			let maxId = 0;
+			if (json.length > 0) {
+				maxId = Math.max(...json.map(item => item.ID || 0));
+			}
+			let newId = maxId + 1;
+
+			// ===============================
+			// 3. CREATE NEW RECORD
+			// ===============================
+			let newRecord = {
+				ID: newId,
+				TokenName: token.toUpperCase(),
+				Type: type,
+				Price: parseFloat(price),
+				Amount: parseFloat(amount),
+				Total: parseFloat(price) * parseFloat(amount),
+				Date: formatted
+			};
+
 			json.push(newRecord);
 
-			// 3. UPDATE FILE
+			// ===============================
+			// 4. SAVE BACK TO GITHUB
+			// ===============================
 			await fetch(url, {
 				method: "PUT",
 				headers: {
