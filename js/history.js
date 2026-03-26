@@ -1,7 +1,7 @@
 $(document).ready(async function () {
 
-	let allData = [];
-	let sortState = { field: null, asc: true };
+	let allData = [];	
+	let sortState = { asc: true };	
 
 	// MENU
 	$("#menuToggle").on("click", function () {
@@ -21,9 +21,13 @@ $(document).ready(async function () {
 		let d = doc.data();
 		d._id = doc.id; // for delete
 		allData.push(d);
-	});
+	});	
+	// 🔥 SORT BY DATE ON LOAD (ONLY ONCE)
+	allData.sort((a,b)=> new Date(a.Date) - new Date(b.Date));
 
 	renderTable(allData);
+	// 🔥 SHOW TOKEN ARROW DEFAULT
+	$('th[data-sort="token"]').find(".sort-icon").text("▲");
 
 	// =====================
 	// RENDER TABLE
@@ -89,37 +93,26 @@ html += `
 	// =====================
 	// SORT
 	// =====================
-	$("th[data-sort]").click(function () {
+	$("th[data-sort='token']").click(function(){
 
-		let field = $(this).data("sort");
+		// toggle sort direction
+		sortState.asc = !sortState.asc;
 
-		if (sortState.field === field) {
-			sortState.asc = !sortState.asc;
-		} else {
-			sortState.field = field;
-			sortState.asc = true;
-		}
-
-		// CLEAR ICONS
+		// clear all arrows
 		$(".sort-icon").text("");
 
+		// set arrow on token
 		let icon = sortState.asc ? "▲" : "▼";
 		$(this).find(".sort-icon").text(icon);
 
-		let sorted = [...allData].sort((a, b) => {
+		// sort by token
+		let sorted = [...allData].sort((a,b)=>{
 
-			let valA, valB;
+			let valA = a.TokenName.toLowerCase();
+			let valB = b.TokenName.toLowerCase();
 
-			if (field === "token") {
-				valA = a.TokenName;
-				valB = b.TokenName;
-			} else if (field === "date") {
-				valA = a.Date;
-				valB = b.Date;
-			}
-
-			if (valA < valB) return sortState.asc ? -1 : 1;
-			if (valA > valB) return sortState.asc ? 1 : -1;
+			if(valA < valB) return sortState.asc ? -1 : 1;
+			if(valA > valB) return sortState.asc ? 1 : -1;
 			return 0;
 		});
 
