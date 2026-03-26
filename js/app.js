@@ -57,7 +57,7 @@ $(document).ready(function(){
 		// ===============================
 		// GITHUB CONFIG
 		// ===============================
-		const githubToken = "ghp_xxxxxxxxxxxxx"; // 🔴 PUT YOUR TOKEN
+		const githubToken = "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"; // 🔴 PUT YOUR TOKEN
 		const owner = "konkhmertool";
 		const repo = "trading";
 		const path = "data.txt";
