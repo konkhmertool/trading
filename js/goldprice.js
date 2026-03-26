@@ -57,25 +57,22 @@ $(document).ready(function(){
 	// EVENTS
 	// =========================
 
-	$("#btnGold").click(function(){
+	$(".metal-group .btn").click(function(){
 
-        currentSymbol = "XAUUSD";
+        // remove active from BOTH buttons
+        $(".metal-group .btn").removeClass("active");
 
-        $(".btn").removeClass("active");
+        // add active only to clicked one
         $(this).addClass("active");
+
+        // switch symbol
+        if(this.id === "btnGold"){
+            currentSymbol = "XAUUSD";
+        }else{
+            currentSymbol = "XAGUSD";
+        }
 
         loadPrice();
-        loadChart();
-    });
-
-	$("#btnSilver").click(function(){
-
-        currentSymbol = "XAGUSD";
-
-        $(".btn").removeClass("active");
-        $(this).addClass("active");
-
-        loadPrice();   // 🔥 ADD THIS
         loadChart();
     });
 

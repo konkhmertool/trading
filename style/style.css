@@ -61,7 +61,11 @@ tbody td:last-child{border-right:none;width:30px;text-align:center;}
 tbody tr:last-child td{padding:0;}
 td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 .sort-icon{margin-left:4px;font-size:12px;} .delete-btn{cursor:pointer;color:#f67b46;font-weight:bold;}
-
+/* GOLD PRICE */
+.gold-controls{margin-top:10px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.gold-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;}
+#priceValue{text-align:center;font-size:24px;font-weight:bold;}
+.btn.active{background:#f6d246;color:#36373c;}
 @keyframes spin{
 	from{transform:rotate(0deg);}
 	to{transform:rotate(360deg);}

@@ -41,21 +41,22 @@
 	</div>
 
 	<!-- CONTROLS -->
-	<div style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+	<div class="gold-controls">
 
-		<button id="btnGold" class="btn active">GOLD</button>
-		<button id="btnSilver" class="btn">SILVER</button>
+		<!-- ONE ROW -->
+		<div class="gold-row metal-group">
+			<button id="btnGold" class="btn active">GOLD</button>
+			<button id="btnSilver" class="btn">SILVER</button>
 
-		<select id="unit" class="form-control" style="width:auto;">
-			<option value="OZ" selected>OZ</option>
-			<option value="KG">KG</option>
-		</select>
+			<select id="unit" class="form-control" style="width:auto;">
+				<option value="OZ" selected>OZ</option>
+				<option value="KG">KG</option>
+			</select>
+		</div>
 
-	</div>
+		<!-- PRICE -->
+		<div id="priceValue">0</div>
 
-	<!-- PRICE DISPLAY -->
-	<div style="margin-top:15px;font-size:22px;font-weight:bold;">
-		<span id="priceValue">0</span>
 	</div>
 
 	<!-- CHART -->
