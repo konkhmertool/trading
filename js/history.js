@@ -1,6 +1,6 @@
 $(document).ready(async function () {
 
-	let allData = [];	
+	let allData = []; // ✅ MUST BE HERE
 	let sortState = { asc: true };	
 	window.lastGoldPrice = null;
 
@@ -15,18 +15,19 @@ $(document).ready(async function () {
 		}
 	});
 
-	// LOAD DATA
+	// LOAD DATA	
 	let snapshot = await getDocs(collection(db, "trades"));
 
 	snapshot.forEach(doc => {
 		let d = doc.data();
-		d._id = doc.id; // for delete
+		d._id = doc.id;
 		allData.push(d);
-	});	
-	// 🔥 SORT BY ID ON LOAD (ONLY ONCE)	
-	allData.sort((a,b)=> Number(a._id) - Number(b._id));
+	});
 
-	renderTable(allData);
+	// 🔥 FORCE NUMERIC SORT (SAFE)
+	allData.sort((a,b)=> parseInt(a.ID) - parseInt(b.ID));
+	
+	renderTable(allData); 
 	// 🔥 CALL ONLY ONCE HERE
 	loadGoldPrice();
 	// 🔥 SHOW TOKEN ARROW DEFAULT
@@ -35,8 +36,8 @@ $(document).ready(async function () {
 	// =====================
 	// RENDER TABLE
 	// =====================
-	function renderTable(data) {
-
+	function renderTable(data) {		
+		
 		let buyAmount = 0, sellAmount = 0;
 		let buyTotal = 0, sellTotal = 0;
 

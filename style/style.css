@@ -3,7 +3,7 @@
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#36373c;color:#f6d246;}
 
 @font-face{font-family:'KhKoulen';src:url('../assets/fonts/kh_koulen_l.ttf') format('truetype');unicode-range:U+1780-17FF;}
-@font-face{font-family:'Khmer OS Siemreap';src:url('../assets/fonts/KhmerOSSiemreap.ttf') format('truetype');unicode-range:U+1780-17FF;}
+@font-face{font-family:'Khmer OS Siemreap';src:url('../assets/fonts/!KhmerOSSiemreap.ttf') format('truetype');unicode-range:U+1780-17FF;}
 @font-face{font-family:'Kanit';src:url('../assets/fonts/Kanit-Regular.ttf') format('truetype');}
 
 .site-header{background:#36373c;border-bottom:1px solid #f6d246;position:relative;}
