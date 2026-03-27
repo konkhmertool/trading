@@ -23,8 +23,8 @@ $(document).ready(async function () {
 		d._id = doc.id; // for delete
 		allData.push(d);
 	});	
-	// 🔥 SORT BY DATE ON LOAD (ONLY ONCE)
-	allData.sort((a,b)=> new Date(a.Date) - new Date(b.Date));
+	// 🔥 SORT BY ID ON LOAD (ONLY ONCE)	
+	allData.sort((a,b)=> Number(a._id) - Number(b._id));
 
 	renderTable(allData);
 	// 🔥 CALL ONLY ONCE HERE
