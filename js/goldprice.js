@@ -25,12 +25,18 @@ $(document).ready(function(){
 
         let price = currentPrice;
 
-        // 🔥 ONLY CONVERT HERE
+        // 🔁 APPLY UNIT FIRST
         if(currentUnit === "KG"){
             price = currentPrice * 32.1507;
         }
 
+        // 🌍 WORLD PRICE
         $("#priceValue").text(price.toFixed(2));
+
+        // 🇰🇭 KHMER PRICE = (price / 8.333) * 10
+        let khmerPrice = (price / 8.333) * 10;
+
+        $("#priceKhmer").text(khmerPrice.toFixed(2));
     }
 
 	// =========================
@@ -43,7 +49,7 @@ $(document).ready(function(){
 		new TradingView.widget({
 			container_id: "tradingview_chart",
 			width: "100%",
-			height: 450,
+			height: 430,
 			symbol: "OANDA:" + currentSymbol,
 			interval: "15",
 			timezone: "Asia/Bangkok",
