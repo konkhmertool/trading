@@ -24,19 +24,22 @@ $(document).ready(function(){
         if(!currentPrice) return;
 
         let price = currentPrice;
+        let khmerPriceSale = 100;
 
         // 🔁 APPLY UNIT FIRST
         if(currentUnit === "KG"){
             price = currentPrice * 32.1507;
+            khmerPriceSale = 100 * 32.1507;
         }
 
         // 🌍 WORLD PRICE
-        $("#priceValue").text(price.toFixed(2));
+        $("#priceValue").text(price.toFixed(3));
 
         // 🇰🇭 KHMER PRICE = (price / 8.333) * 10
-        let khmerPrice = (price / 8.333) * 10;
+        let khmerPrice = ((price / 8.333) * 10);
+        khmerPriceSale = ((price / 8.333) * 10) + khmerPriceSale;
 
-        $("#priceKhmer").text(khmerPrice.toFixed(2));
+        $("#priceKhmer").text("$" + khmerPrice.toFixed(3) + " ~ $" + khmerPriceSale.toFixed(3));
     }
 
 	// =========================
