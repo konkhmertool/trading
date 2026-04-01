@@ -220,6 +220,6 @@ html += `
 
 		let approx = balance * window.lastGoldPrice;
 
-		$("#balanceApprox").text("≈ ($" + approx.toFixed(2) + ")");
+		$("#balanceApprox").text("≈ (" + approx.toFixed(2) + ")");
 	}
 });
