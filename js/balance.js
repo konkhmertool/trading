@@ -60,32 +60,68 @@ $(document).ready(function () {
 	}
 
 	$(document).on("click", ".save-balance", async function(){
-		let btn = $(this);
-		let row = btn.closest("tr");
-		let id = row.data("id");
-		let amount = row.find(".balance-amount").val().trim();
 
-		if(amount === ""){
-			showMsg("Please enter Amount.", false);
-			return;
-		}
+        let btn = $(this);
+        let row = btn.closest("tr");
 
-		try{
-			btn.prop("disabled", true).text("Saving...");
+        let id = row.data("id");
+        let amount = row.find(".balance-amount").val().trim();
 
-			await updateDoc(doc(db, "balance", id), {
-				amount: amount
-			});
+        if(amount === ""){
+            showMsg("Please enter Amount.", false);
+            return;
+        }
 
-			showMsg("Balance updated successfully!", true);
+        // ASK PASSWORD
+        let inputPwd = prompt("Enter Password");
 
-		}catch(e){
-			console.error(e);
-			showMsg("Update failed.", false);
-		}
+        if(!inputPwd){
+            showMsg("Password required", false);
+            return;
+        }
 
-		btn.prop("disabled", false).text("SAVE");
-	});
+        try{
+
+            // GET AUTH PASSWORD
+            let authSnap = await getDocs(collection(db, "authentication"));
+
+            let validPwd = false;
+
+            authSnap.forEach(docSnap => {
+
+                let data = docSnap.data();
+
+                if(data.pwd == inputPwd){
+                    validPwd = true;
+                }
+
+            });
+
+            // WRONG PASSWORD
+            if(!validPwd){
+                showMsg("Wrong Password", false);
+                return;
+            }
+
+            // UPDATE BALANCE
+            btn.prop("disabled", true).text("Saving...");
+
+            await updateDoc(doc(db, "balance", id), {
+                Amount: amount
+            });
+
+            showMsg("Balance updated successfully!", true);
+
+        }catch(e){
+
+            console.error(e);
+            showMsg("Update failed.", false);
+
+        }
+
+        btn.prop("disabled", false).text("SAVE");
+
+    }); // end save button
 
 	loadBalance();
 
