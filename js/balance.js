@@ -19,7 +19,9 @@ $(document).ready(function () {
 	}
 
 	function safeName(d, id){
-		return d.TokenName || d.Name || d.name || d.Token || d.token || id;
+		let name = d.TokenName || d.Name ||	d.name || d.Token || d.token || id;
+	    name = String(name);
+	    return name.charAt(0).toUpperCase() + name.slice(1);
 	}
 
 	async function loadBalance(){
