@@ -72,7 +72,7 @@ $(document).ready(function () {
 			btn.prop("disabled", true).text("Saving...");
 
 			await updateDoc(doc(db, "balance", id), {
-				Amount: amount
+				amount: amount
 			});
 
 			showMsg("Balance updated successfully!", true);
