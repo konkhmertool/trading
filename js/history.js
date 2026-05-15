@@ -247,6 +247,12 @@ html += `
 		let approx = balance * window.lastGoldPrice;
 
 		$("#balanceApprox").text("≈ (" + approx.toFixed(2) + ")");
+
+		// Balance in Binance = Firestore balance - balanceApprox
+		if(window.binanceBalance !== undefined){
+			let finalBinance = window.binanceBalance - approx;
+			$("#balance_in_binance").text("$" + finalBinance.toFixed(3));
+		}
 	} // end updateBalanceApprox
 
 
@@ -266,7 +272,13 @@ html += `
 				}
 			});
 
-			$("#balance_in_binance").text("$" + totalBalance.toFixed(3));
+			// save original balance from Firestore
+			window.binanceBalance = totalBalance;
+
+			// calculate again if gold price already loaded
+			updateBalanceApprox();
+			
+			//$("#balance_in_binance").text("$" + totalBalance.toFixed(3));
 
 		} catch (error) {
 			console.error("Error loading Balance:", error);
