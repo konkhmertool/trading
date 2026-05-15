@@ -73,6 +73,52 @@ $(document).ready(function(){
 
 		try {
 
+			// ASK PASSWORD
+			let inputPwd = prompt("Enter Password");
+
+			if(!inputPwd){
+				$("#dspMsg")
+				.removeClass("label-success")
+				.addClass("label-error")
+				.text("Password required")
+				.fadeIn(200).delay(1600).fadeOut(700);
+
+				isSaving = false;
+				btn.prop("disabled", false);
+				btn.find(".btn-text").text("SAVE");
+				btn.find(".btn-loader").hide();
+
+				return;
+			}
+
+			// CHECK PASSWORD FROM FIRESTORE
+			let authSnap = await getDocs(collection(db, "authentication"));
+
+			let validPwd = false;
+
+			authSnap.forEach(docSnap => {
+				let data = docSnap.data();
+
+				if(data.pwd == inputPwd){
+					validPwd = true;
+				}
+			});
+
+			if(!validPwd){
+				$("#dspMsg")
+				.removeClass("label-success")
+				.addClass("label-error")
+				.text("Wrong Password")
+				.fadeIn(200).delay(1600).fadeOut(700);
+
+				isSaving = false;
+				btn.prop("disabled", false);
+				btn.find(".btn-text").text("SAVE");
+				btn.find(".btn-loader").hide();
+
+				return;
+			}
+
 			let snapshot = await getDocs(collection(db, "trades"));
 
 			let maxId = 0;
