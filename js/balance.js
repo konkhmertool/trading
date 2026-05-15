@@ -42,7 +42,7 @@ $(document).ready(function () {
 				html += `
 <tr data-id="${id}">
 	<td>${safeName(d, id)}</td>
-	<td>
+	<td style="text-align:center">
 		<input type="number" step="any" class="form-control balance-amount" value="${amount}">
 	</td>
 	<td>
