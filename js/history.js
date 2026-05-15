@@ -144,6 +144,34 @@ html += `
 
 		try {
 
+			// ASK PASSWORD
+			let inputPwd = prompt("Enter Password");
+
+			if(!inputPwd){
+				alert("Password required");
+				return;
+			}
+
+			// CHECK PASSWORD
+			let authSnap = await getDocs(collection(db, "authentication"));
+
+			let validPwd = false;
+
+			authSnap.forEach(docSnap => {
+
+				let data = docSnap.data();
+
+				if(data.pwd == inputPwd){
+					validPwd = true;
+				}
+
+			});
+
+			if(!validPwd){
+				alert("Wrong Password");
+				return;
+			}// end check pwd
+
 			// 🔥 DELETE FROM FIREBASE
 			await deleteDoc(doc(db, "trades", id));
 
