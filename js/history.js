@@ -30,6 +30,7 @@ $(document).ready(async function () {
 	renderTable(allData); 
 	// 🔥 CALL ONLY ONCE HERE
 	loadGoldPrice();
+	loadBalanceInBinance();
 	// 🔥 SHOW TOKEN ARROW DEFAULT
 	$('th[data-sort="token"]').find(".sort-icon").text("▲");
 
@@ -221,5 +222,30 @@ html += `
 		let approx = balance * window.lastGoldPrice;
 
 		$("#balanceApprox").text("≈ (" + approx.toFixed(2) + ")");
-	}
+	} // end updateBalanceApprox
+
+
+	async function loadBalanceInBinance() {
+		try {
+			let snapshot = await getDocs(collection(db, "balance"));
+			let totalBalance = 0;
+
+			snapshot.forEach(docSnap => {
+				let data = docSnap.data();
+				let amount = data.Amount ?? data.amount ?? 0;
+
+				amount = parseFloat(amount);
+
+				if (!isNaN(amount)) {
+					totalBalance += amount;
+				}
+			});
+
+			$("#balance_in_binance").text("$" + totalBalance.toFixed(3));
+
+		} catch (error) {
+			console.error("Error loading Balance:", error);
+			$("#balance_in_binance").text("$0.000");
+		}
+	} // end loadBalanceInBinance
 });

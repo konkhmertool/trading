@@ -67,6 +67,53 @@ td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 #priceValue{text-align:center;font-size:24px;font-weight:bold;}
 #priceKhmer{text-align:center;font-size:24px;font-weight:bold;}
 .btn.active{background:#f6d246;color:#36373c;}
+
+/* BALANCE */
+.balance-title{
+	font-size:22px;
+	font-weight:700;
+	margin:18px 0 14px;
+}
+
+.balance-help{
+	font-family:'Khmer OS Siemreap',Arial;
+	margin-bottom:12px;
+	opacity:.9;
+}
+
+.balance-table-wrap{
+	overflow-x:auto;
+	margin-top:10px;
+}
+
+.balance-table{
+	width:100%;
+	border-collapse:collapse;
+	table-layout:fixed;
+}
+
+.balance-table th,
+.balance-table td{
+	padding:8px;
+	border-bottom:1px solid rgba(246,210,70,.5);
+	text-align:left;
+}
+
+.balance-table th{
+	font-family:'Khmer OS Siemreap',Arial;
+	font-weight:700;
+}
+
+.balance-table input.form-control{
+	min-width:140px;
+}
+
+.balance-message{
+	display:none;
+	font-weight:700;
+	margin-left:8px;
+}
+
 @keyframes spin{
 	from{transform:rotate(0deg);}
 	to{transform:rotate(360deg);}

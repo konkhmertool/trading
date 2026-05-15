@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Balance</title>
+
+<link rel="icon" href="images/favi.ico">
+<link rel="stylesheet" href="style/style.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/balance.js"></script>
+</head>
+
+<body>
+
+<header class="site-header">
+<div class="header-inner">
+<div class="logo">ជួញដូរ<span> - TRADING</span></div>
+
+<button type="button" class="menu-toggle" id="menuToggle">☰</button>
+
+<nav class="nav-menu" id="mainMenu">
+<a href="index.html">ទំព័រដើម</a>
+<a href="#">ព័ត៌មានមាស</a>
+<a href="#">សំខាន់ៗ</a>
+<a href="#">ផ្សេងៗ</a>
+<a href="balance.html">Balance</a>
+</nav>
+</div>
+</header>
+
+<div class="page-wrap">
+<section class="app-card">
+
+<div class="tabs">        
+<a href="index.html" class="tab-btn">TRADE</a>
+<a href="history.html" class="tab-btn">HISTORY</a>
+<a href="goldprice.html" class="tab-btn">GOLD</a>
+
+</div>
+
+<div class="tab-panel">
+<div class="balance-title">Balance / សមតុល្យ</div>
+<div class="balance-help">Update Amount from Firestore collection <b>balance</b>.</div>
+
+<div class="balance-table-wrap">
+<table class="balance-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Amount</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="balanceTable">
+<tr><td colspan="3">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="margin-top:12px;">
+<span id="balanceMsg" class="balance-message"></span>
+</div>
+</div>
+
+</section>
+</div>
+
+<script type="module" src="js/firebase.js"></script>
+
+</body>
+</html>
