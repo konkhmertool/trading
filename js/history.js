@@ -138,12 +138,9 @@ html += `
 	// =====================
 	$(document).on("click", ".delete-btn", async function () {
 
-		let id = $(this).data("id");
-
+		let id = $(this).data("id");		
 		if (!confirm("Delete this record?")) return;
-
-		try {
-
+		try {		
 			// ASK PASSWORD
 			let inputPwd = prompt("Enter Password");
 
