@@ -50,8 +50,6 @@ $(document).ready(async function () {
 			let amount = parseFloat(d.Amount) || 0;
 			let total = parseFloat(d.Total) || 0;
 
-			let currentMarket = ((window.lastGoldPrice || 0) * parseFloat(d.Amount || 0)).toFixed(3);
-			
 			if (d.Type.toUpperCase() === "BUY") {
 				buyAmount += amount;
 				buyTotal += total;
@@ -68,20 +66,11 @@ $(document).ready(async function () {
 	</td>
 	<td>${d.Price}</td>
 	<td>
-	<div class="amount-tooltip-wrap">
-	
-		<span>
-			<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
-				(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
-			</span>
-			${d.Amount}
+		<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
+			(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
 		</span>
-
-		<span class="market-info-icon">!</span>
-		<div class="market-tooltip">As Current Market : $${currentMarket}</div>
-
-	</div>
-</td>
+		${d.Amount}
+	</td>
 	<td>${d.Total}</td>
 	<td><span class="delete-btn" data-id="${d._id}">×</span></td>
 </tr>`;
@@ -296,20 +285,4 @@ html += `
 			$("#balance_in_binance").text("$0.000");
 		}
 	} // end loadBalanceInBinance
-
-	// MOBILE TOOLTIP
-$(document).on("click", ".amount-tooltip-wrap", function(e){
-
-	e.stopPropagation();
-
-	$(".amount-tooltip-wrap").not(this).removeClass("active");
-
-	$(this).toggleClass("active");
-});
-
-// CLOSE TOOLTIP
-$(document).on("click", function(){
-	$(".amount-tooltip-wrap").removeClass("active");
-});
-	
 });
