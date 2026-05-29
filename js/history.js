@@ -65,7 +65,7 @@ $(document).ready(async function () {
 		<div class="token-date">${formatDate(d.Date)}</div>
 	</td>
 	<td>${d.Price}</td>
-	<td class="amount-tooltip-td" data-amount="${amount}">
+	<td class="amount-tooltip-td" data-amount="${amount}" data-total="${total}">
 		<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
 			(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
 		</span>
@@ -109,13 +109,29 @@ html += `
 		e.stopPropagation();
 	
 		let amount = parseFloat($(this).attr("data-amount")) || 0;
+		let total = parseFloat($(this).attr("data-total")) || 0;
+		
 		let goldPrice = window.lastGoldPrice || parseFloat($("#goldPrice").text()) || 0;
+		
 		let currentMarket = goldPrice * amount;
-	
+		
+		let profitLoss = currentMarket - total;
+		
+		let statusText = profitLoss >= 0 ? '<span style="color:#4caf50">ចំណេញ</span>' : '<span style="color:#ff5252">ខាត</span>';
+		
 		let tooltip = $("#marketTooltip");
-	
+		
 		tooltip
-			.text("As Current Market : $" + currentMarket.toFixed(3))
+			.html(
+				amount.toFixed(3) +
+				" ≈ $" +
+				currentMarket.toFixed(2) +
+				" តម្លៃបច្ចុប្បន្ន" +
+				"<br>" +
+				statusText +
+				" $" +
+				Math.abs(profitLoss).toFixed(2)
+			)
 			.addClass("show");
 	
 		let rect = this.getBoundingClientRect();
