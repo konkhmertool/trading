@@ -108,18 +108,18 @@ html += `
 
 	$(document).on("click", ".amount-tooltip-td", function (e) {
 		e.stopPropagation();
+
+	    let amount = parseFloat($(this).attr("data-amount")) || 0;
+	    let goldPrice = parseFloat($("#goldPrice").text()) || window.lastGoldPrice || 0;
+	    let currentMarket = goldPrice * amount;
 	
-		let amount = parseFloat($(this).data("amount")) || 0;
-		let goldPrice = parseFloat($("#goldPrice").text()) || window.lastGoldPrice || 0;
-		let currentMarket = goldPrice * amount;
+	    $(".amount-tooltip-td").not(this).removeClass("show-tooltip");
 	
-		$(".amount-tooltip-td").not(this).removeClass("show-tooltip");
+	    $(this)
+	        .find(".market-tooltip")
+	        .text("As Current Market : $" + currentMarket.toFixed(3));
 	
-		$(this)
-			.find(".market-tooltip")
-			.text("As Current Market : $" + currentMarket.toFixed(3));
-	
-		$(this).toggleClass("show-tooltip");
+	    $(this).toggleClass("show-tooltip");
 	});
 	
 	$(document).on("click", function () {
