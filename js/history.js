@@ -103,7 +103,44 @@ html += `
 			calculateProfit(window.lastGoldPrice);
 		}
 
-	}
+	} // End function renderTable
+
+	$(document).on("click", ".amount-tooltip-td", function (e) {
+		e.stopPropagation();
+	
+		let amount = parseFloat($(this).attr("data-amount")) || 0;
+		let goldPrice = window.lastGoldPrice || parseFloat($("#goldPrice").text()) || 0;
+		let currentMarket = goldPrice * amount;
+	
+		let tooltip = $("#marketTooltip");
+	
+		tooltip
+			.text("As Current Market : $" + currentMarket.toFixed(3))
+			.addClass("show");
+	
+		let rect = this.getBoundingClientRect();
+	
+		let left = rect.left + rect.width / 2;
+		let top = rect.top - 45;
+	
+		if (top < 10) {
+			top = rect.bottom + 10;
+		}
+	
+		tooltip.css({
+			left: left + "px",
+			top: top + "px",
+			transform: "translateX(-50%)"
+		});
+	});
+	
+	$(document).on("click", function () {
+		$("#marketTooltip").removeClass("show");
+	});
+	
+	$(window).on("scroll resize", function () {
+		$("#marketTooltip").removeClass("show");
+	});
 
 	// =====================
 	// SORT
