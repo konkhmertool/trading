@@ -298,4 +298,20 @@ html += `
 			$("#balance_in_binance").text("$0.000");
 		}
 	} // end loadBalanceInBinance
+
+	// MOBILE TOOLTIP
+$(document).on("click", ".amount-tooltip-wrap", function(e){
+
+	e.stopPropagation();
+
+	$(".amount-tooltip-wrap").not(this).removeClass("active");
+
+	$(this).toggleClass("active");
+});
+
+// CLOSE TOOLTIP
+$(document).on("click", function(){
+	$(".amount-tooltip-wrap").removeClass("active");
+});
+	
 });
