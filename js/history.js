@@ -65,11 +65,13 @@ $(document).ready(async function () {
 		<div class="token-date">${formatDate(d.Date)}</div>
 	</td>
 	<td>${d.Price}</td>
-	<td>
+	<td class="amount-tooltip-td" data-amount="${amount}">
 		<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
 			(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
 		</span>
 		${d.Amount}
+		<span class="amount-info-icon">!</span>
+		<div class="market-tooltip"></div>
 	</td>
 	<td>${d.Total}</td>
 	<td><span class="delete-btn" data-id="${d._id}">×</span></td>
@@ -102,7 +104,31 @@ html += `
 			calculateProfit(window.lastGoldPrice);
 		}
 
-	}
+	}// end render table function
+
+	$(document).on("click", ".amount-tooltip-td", function (e) {
+		e.stopPropagation();
+	
+		let amount = parseFloat($(this).data("amount")) || 0;
+		let goldPrice = parseFloat($("#goldPrice").text()) || window.lastGoldPrice || 0;
+		let currentMarket = goldPrice * amount;
+	
+		$(".amount-tooltip-td").not(this).removeClass("show-tooltip");
+	
+		$(this)
+			.find(".market-tooltip")
+			.text("As Current Market : $" + currentMarket.toFixed(3));
+	
+		$(this).toggleClass("show-tooltip");
+	});
+	
+	$(document).on("click", function () {
+		$(".amount-tooltip-td").removeClass("show-tooltip");
+	});
+	
+	$(window).on("scroll resize", function () {
+		$(".amount-tooltip-td").removeClass("show-tooltip");
+	});
 
 	// =====================
 	// SORT
