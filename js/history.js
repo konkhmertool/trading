@@ -137,7 +137,7 @@ html += `
 		let rect = this.getBoundingClientRect();
 	
 		let left = rect.left + rect.width / 2;		
-		let top = rect.top - (tooltip.outerHeight() + 5) ;
+		let top = rect.top - (tooltip.outerHeight() + 15) ;
 	
 		if (top < 10) {
 			top = rect.bottom + 10;
