@@ -115,6 +115,43 @@ td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 	margin-left:8px;
 }
 
+.amount-tooltip-td {
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.amount-info-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 15px;
+	height: 15px;
+	margin-left: 5px;
+	border-radius: 50%;
+	background: #f6d246;
+	color: #111;
+	font-size: 10px;
+	font-weight: 900;
+}
+
+#marketTooltip {
+	position: fixed;
+	display: none;
+	background: #111;
+	color: #fff;
+	padding: 9px 12px;
+	border-radius: 8px;
+	font-size: 13px;
+	font-weight: 700;
+	box-shadow: 0 6px 20px rgba(0,0,0,.35);
+	z-index: 9999999;
+	white-space: nowrap;
+}
+
+#marketTooltip.show {
+	display: block;
+}
+
 @keyframes spin{
 	from{transform:rotate(0deg);}
 	to{transform:rotate(360deg);}
