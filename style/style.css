@@ -149,6 +149,17 @@ td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 	white-space: nowrap;
 	border:1px solid #f6d246;
 }
+#marketTooltip::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: calc(100% - 1px);
+	transform: translateX(-50%);
+
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 7px solid #111;
+}
 
 #marketTooltip.show {
 	display: block;
