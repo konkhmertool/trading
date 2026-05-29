@@ -65,11 +65,12 @@ $(document).ready(async function () {
 		<div class="token-date">${formatDate(d.Date)}</div>
 	</td>
 	<td>${d.Price}</td>
-	<td>
+	<td class="amount-tooltip-td" data-amount="${amount}">
 		<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
 			(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
 		</span>
 		${d.Amount}
+		<span class="amount-info-icon">!</span>
 	</td>
 	<td>${d.Total}</td>
 	<td><span class="delete-btn" data-id="${d._id}">×</span></td>
