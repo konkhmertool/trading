@@ -76,11 +76,10 @@ $(document).ready(async function () {
 		</span>
 
 		<span class="market-info-icon">!</span>
-
 		<div class="market-tooltip">
-			As Current Market :
-			$${((window.lastGoldPrice || 0) * amount).toFixed(3)}
-		</div>
+	As Current Market :
+	$${(((window.lastGoldPrice || 0) * parseFloat(d.Amount || 0)).toFixed(3))}
+</div>
 
 	</div>
 </td>
