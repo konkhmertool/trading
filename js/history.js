@@ -50,6 +50,8 @@ $(document).ready(async function () {
 			let amount = parseFloat(d.Amount) || 0;
 			let total = parseFloat(d.Total) || 0;
 
+			let currentMarket = ((window.lastGoldPrice || 0) * parseFloat(d.Amount || 0)).toFixed(3);
+			
 			if (d.Type.toUpperCase() === "BUY") {
 				buyAmount += amount;
 				buyTotal += total;
@@ -76,10 +78,7 @@ $(document).ready(async function () {
 		</span>
 
 		<span class="market-info-icon">!</span>
-		<div class="market-tooltip">
-	As Current Market :
-	$${(((window.lastGoldPrice || 0) * parseFloat(d.Amount || 0)).toFixed(3))}
-</div>
+		<div class="market-tooltip">As Current Market : $${currentMarket}</div>
 
 	</div>
 </td>
