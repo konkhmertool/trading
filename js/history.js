@@ -253,11 +253,6 @@ html += `
 
 		let balance = window.currentBalance || 0;
 		let total = window.currentTotal || 0;
-
-		console.log("balance:", balance);
-		console.log("total:", total);
-		console.log("gold:", goldPrice);
-
 		let profit = (goldPrice * balance) - total;		
 		$("#profitValue").text("$" + profit.toFixed(2));
 	}
