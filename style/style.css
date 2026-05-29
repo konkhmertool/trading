@@ -115,70 +115,6 @@ td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 	margin-left:8px;
 }
 
-.amount-tooltip-wrap{
-	position:relative;
-	display:inline-flex;
-	align-items:center;
-	gap:5px;
-	cursor:pointer;
-	-webkit-tap-highlight-color: transparent;
-}
-
-.market-info-icon{
-	width:16px;
-	height:16px;
-	border-radius:50%;
-	background:#f6d246;
-	color:#111;
-	font-size:11px;
-	font-weight:700;
-	display:inline-flex;
-	align-items:center;
-	justify-content:center;
-	line-height:1;
-	box-shadow:0 2px 6px rgba(0,0,0,.25);
-	flex-shrink:0;
-}
-
-.market-tooltip{
-	position:absolute;
-	left:50%;
-	bottom:125%;
-	transform:translateX(-50%);
-	background:#111;
-	color:#fff;
-	padding:10px 14px;
-	border-radius:12px;
-	font-size:13px;
-	white-space:nowrap;
-	box-shadow:0 8px 25px rgba(0,0,0,.35);
-	opacity:0;
-	visibility:hidden;
-	transition:.18s ease;
-	z-index:9999;
-	pointer-events:none;
-	font-weight:600;
-}
-
-.market-tooltip::after{
-	content:"";
-	position:absolute;
-	left:50%;
-	top:100%;
-	transform:translateX(-50%);
-	border-width:7px;
-	border-style:solid;
-	border-color:#111 transparent transparent transparent;
-}
-
-.amount-tooltip-wrap:hover .market-tooltip,
-.amount-tooltip-wrap.active .market-tooltip{
-	opacity:1;
-	visibility:visible;
-}
-
-
-
 @keyframes spin{
 	from{transform:rotate(0deg);}
 	to{transform:rotate(360deg);}
@@ -197,11 +133,4 @@ td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 .tab-panel{max-width:100%;}
 .title{font-size:20px;}
 input[type="date"].form-control{width:98%!important;max-width:98%;}
-	.market-tooltip{
-		font-size:12px;
-		padding:9px 12px;
-		max-width:220px;
-		white-space:normal;
-		text-align:center;
-	}
 }
