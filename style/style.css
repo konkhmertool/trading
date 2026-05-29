@@ -137,15 +137,16 @@ td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 #marketTooltip {
 	position: fixed;
 	display: none;
-	background: #111;
+	background: #36373c;
 	color: #fff;
 	padding: 9px 12px;
-	border-radius: 8px;
+	border-radius: 3px;
 	font-size: 13px;
 	font-weight: 700;
 	box-shadow: 0 6px 20px rgba(0,0,0,.35);
 	z-index: 9999999;
 	white-space: nowrap;
+	border:1px solid #f6d246;
 }
 
 #marketTooltip.show {
