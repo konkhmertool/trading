@@ -66,11 +66,24 @@ $(document).ready(async function () {
 	</td>
 	<td>${d.Price}</td>
 	<td>
-		<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
-			(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
+	<div class="amount-tooltip-wrap">
+	
+		<span>
+			<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
+				(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
+			</span>
+			${d.Amount}
 		</span>
-		${d.Amount}
-	</td>
+
+		<span class="market-info-icon">!</span>
+
+		<div class="market-tooltip">
+			As Current Market :
+			$${((window.lastGoldPrice || 0) * amount).toFixed(3)}
+		</div>
+
+	</div>
+</td>
 	<td>${d.Total}</td>
 	<td><span class="delete-btn" data-id="${d._id}">×</span></td>
 </tr>`;
