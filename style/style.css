@@ -141,8 +141,9 @@ td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
 	color: #fff;
 	padding: 9px 12px;
 	border-radius: 3px;
+	font-family:'Khmer OS Siemreap',Arial;
 	font-size: 13px;
-	font-weight: 700;
+	font-weight: 500;
 	box-shadow: 0 6px 20px rgba(0,0,0,.35);
 	z-index: 9999999;
 	white-space: nowrap;
