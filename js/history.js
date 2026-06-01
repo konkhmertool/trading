@@ -120,7 +120,7 @@ html += `
 		let profit5percentOunce = prepriceounce * 1.05;
 		let profit5percentDollar = total * 0.05;
 		
-		let statusText = profitLoss >= 0 ? '<span style="color:#4caf50">ចំណេញ</span>' : '<span style="color:#ff5252">ខាត</span>';
+		let statusText = profitLoss >= 0 ? '<span style="color:#11e61a">ចំណេញ</span>' : '<span style="color:#ff5252">ខាត</span>';
 		let statusTextPercent = 'ចង់ចំណេញ 5% ≈ ';
 		
 		let tooltip = $("#marketTooltip");
