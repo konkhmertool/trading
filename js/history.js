@@ -117,11 +117,11 @@ html += `
 		let currentMarket = goldPrice * amount;
 		
 		let profitLoss = currentMarket - total;
-		let profit5percentOunce = prepriceounce * 1.05;
-		let profit5percentDollar = total * 0.05;
+		let profit5percentOunce = prepriceounce * 1.03;
+		let profit5percentDollar = total * 0.03;
 		
 		let statusText = profitLoss >= 0 ? '<span style="color:#11e61a">ចំណេញ</span>' : '<span style="color:#ff5252">ខាត</span>';
-		let statusTextPercent = 'ចង់ចំណេញ 5% ≈ $';
+		let statusTextPercent = 'បើយក 3% ≈ $';
 		
 		let tooltip = $("#marketTooltip");
 		
