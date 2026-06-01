@@ -121,7 +121,7 @@ html += `
 		let profit5percentDollar = total * 0.03;
 		
 		let statusText = profitLoss >= 0 ? '<span style="color:#11e61a">ចំណេញ</span>' : '<span style="color:#ff5252">ខាត</span>';
-		let statusTextPercent = 'បើយក 3% ≈ $';
+		let statusTextPercent = 'បើយក 3% ≈ ';
 		
 		let tooltip = $("#marketTooltip");
 		
@@ -131,7 +131,7 @@ html += `
 				"<br>" +
 				statusText + " $" +	Math.abs(profitLoss).toFixed(2) +
 				"<br>" +
-				statusTextPercent +"<span style='color:#2bff00'>"+ Math.abs(profit5percentDollar).toFixed(2) + "</span> ឬ Gold Price: " +"<span style='color:#2bff00'>"+ Math.abs(profit5percentOunce).toFixed(2) + "</span>"
+				statusTextPercent +"<span style='color:#2bff00'>$"+ Math.abs(profit5percentDollar).toFixed(2) + "</span> ឬ Gold Price: " +"<span style='color:#2bff00'>"+ Math.abs(profit5percentOunce).toFixed(2) + "</span>"
 			)
 			.addClass("show");
 	
