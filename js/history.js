@@ -65,7 +65,7 @@ $(document).ready(async function () {
 		<div class="token-date">${formatDate(d.Date)}</div>
 	</td>
 	<td>${d.Price}</td>
-	<td class="amount-tooltip-td" data-amount="${amount}" data-total="${total}">
+	<td class="amount-tooltip-td" data-amount="${amount}" data-total="${total}" data-prepriceounce="${d.Price}">
 		<span class="${d.Type.toUpperCase() === 'BUY' ? 'buy-text' : 'sell-text'}">
 			(${d.Type.toUpperCase() === 'BUY' ? 'ទិញ' : 'លក់'})
 		</span>
@@ -107,7 +107,8 @@ html += `
 
 	$(document).on("click", ".amount-tooltip-td", function (e) {
 		e.stopPropagation();
-	
+
+		let prepriceounce = parseFloat($(this).attr("data-prepriceounce")) || 0;
 		let amount = parseFloat($(this).attr("data-amount")) || 0;
 		let total = parseFloat($(this).attr("data-total")) || 0;
 		
@@ -116,28 +117,28 @@ html += `
 		let currentMarket = goldPrice * amount;
 		
 		let profitLoss = currentMarket - total;
+		let profit5percentOunce = prepriceounce * 1.05;
+		let profit5percentDollar = total * 0.05;
 		
 		let statusText = profitLoss >= 0 ? '<span style="color:#4caf50">ចំណេញ</span>' : '<span style="color:#ff5252">ខាត</span>';
+		let statusTextPercent = 'ចង់ចំណេញ 5% ≈ ';
 		
 		let tooltip = $("#marketTooltip");
 		
 		tooltip
 			.html(
-				amount.toFixed(3) +
-				" ≈ $" +
-				currentMarket.toFixed(2) +
-				" តម្លៃបច្ចុប្បន្ន" +
+				amount.toFixed(3) +	" ≈ $" + currentMarket.toFixed(2) +	" តម្លៃបច្ចុប្បន្ន" +
 				"<br>" +
-				statusText +
-				" $" +
-				Math.abs(profitLoss).toFixed(2)
+				statusText + " $" +	Math.abs(profitLoss).toFixed(2) +
+				"<br>" +
+				statusTextPercent +"<span style='color:#2bff00'>"+ Math.abs(profit5percentDollar).toFixed(2) + "</span> ឬ Gold Price: " +"<span style='color:#2bff00'>"+ Math.abs(profit5percentOunce).toFixed(2) + "</span>"
 			)
 			.addClass("show");
 	
 		let rect = this.getBoundingClientRect();
 	
 		let left = rect.left + rect.width / 2;		
-		let top = rect.top - (tooltip.outerHeight() - 10) ;
+		let top = rect.top - (tooltip.outerHeight() - 25) ;
 	
 		if (top < 10) {
 			top = rect.bottom + 10;
