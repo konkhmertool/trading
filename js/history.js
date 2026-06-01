@@ -121,7 +121,7 @@ html += `
 		let profit5percentDollar = total * 0.05;
 		
 		let statusText = profitLoss >= 0 ? '<span style="color:#11e61a">ចំណេញ</span>' : '<span style="color:#ff5252">ខាត</span>';
-		let statusTextPercent = 'ចង់ចំណេញ 5% ≈ ';
+		let statusTextPercent = 'ចង់ចំណេញ 5% ≈ $';
 		
 		let tooltip = $("#marketTooltip");
 		
